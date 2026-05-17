@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenges — CyberGuard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hub-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media(max-width:700px){ .hub-layout { grid-template-columns: 1fr; } }
+    .progress-overview {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: sticky; top: 80px;
+    }
+    .prog-title {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-dim); font-family: 'Space Mono', monospace;
+      margin-bottom: 1.25rem;
+    }
+    .prog-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .prog-item:last-child { border-bottom: none; }
+    .prog-check { font-size: 1rem; }
+    .score-display {
+      margin-top: 1.25rem;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(227,179,65,0.06);
+      border: 1px solid rgba(227,179,65,0.15);
+      border-radius: 6px;
+    }
+    .score-num { font-size: 2rem; font-weight: 800; color: var(--amber); }
+    .score-label { font-size: 0.7rem; color: var(--text-dim); font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+    .warning-box {
+      background: rgba(255,59,59,0.06);
+      border: 1px solid rgba(255,59,59,0.2);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="challenges.html" style="color:var(--text)">Challenges</a></li>
+    <li><a href="results.html">Results</a></li>
+  </ul>
+  <div class="nav-score" id="nav-score">⬡ 0 pts</div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">Training Modules</div>
+    <h1>Choose your challenge</h1>
+    <p>Complete all three modules to unlock your full anxiety assessment. Each challenge can be replayed for a higher score.</p>
+  </div>
+
+  <div id="no-baseline-warning" class="warning-box">
+    ⚠ You haven't completed your baseline anxiety rating yet. <a href="index.html" style="color:var(--red)">Return to home</a> to set it first — this is required for your evaluation data.
+  </div>
+
+  <div class="hub-layout">
+    <div>
+      <div class="challenge-grid">
+
+        <!-- Phishing -->
+        <a href="pages/phishing.html" class="challenge-card red-card" id="card-phishing">
+          <div class="card-status" id="status-phishing"></div>
+          <div class="card-icon">🎣</div>
+          <h3>Phishing Simulation</h3>
+          <p>Analyse a series of suspicious emails and decide: legitimate or attack? Play both attacker and defender perspectives.</p>
+          <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
+            <span class="tag tag-red">Red Team</span>
+            <span class="tag tag-amber">+150 pts</span>
+          </div>
+          <div class="card-badge" style="margin-top:0.75rem">5 Scenarios · Intermediate</div>
+        </a>
+
+        <!-- Password -->
+        <a href="pages/password.html" class="challenge-card amber-card" id="card-password">
+          <div class="card-status" id="status-password"></div>
+          <div class="card-icon">🔐</div>
+          <h3>Password Misuse</h3>
+          <p>Defend an account under attack. Identify weak credentials, respond to credential stuffing, and choose recovery actions.</p>
+          <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
+            <span class="tag tag-blue">Blue Team</span>
+            <span class="tag tag-amber">+120 pts</span>
+          </div>
+          <div class="card-badge" style="margin-top:0.75rem">4 Scenarios · Beginner</div>
+        </a>
+
+        <!-- Social Engineering -->
+        <a href="pages/social.html" class="challenge-card blue-card" id="card-social">
+          <div class="card-status" id="status-social"></div>
+          <div class="card-icon">🎭</div>
+          <h3>Social Engineering</h3>
+          <p>Recognise psychological manipulation tactics in chat, phone and in-person scenarios. Can you spot the attacker?</p>
+          <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
+            <span class="tag tag-blue">Mixed</span>
+            <span class="tag tag-amber">+130 pts</span>
+          </div>
+          <div class="card-badge" style="margin-top:0.75rem">5 Scenarios · Advanced</div>
+        </a>
+      </div>
+
+      <!-- Guidance teaser -->
+      <div class="guidance-box">
+        <h3>💡 Anxiety Reduction Module</h3>
+        <p>After each challenge you'll receive targeted guidance addressing the specific anxiety patterns that scenario was designed to trigger. This is not just about learning facts — it's about retraining your emotional response to cyber threats.</p>
+      </div>
+    </div>
+
+    <!-- Sidebar progress -->
+    <div class="progress-overview">
+      <div class="prog-title">Your Progress</div>
+      <div class="prog-item">
+        <span>Phishing</span>
+        <span class="prog-check" id="prog-phishing">○</span>
+      </div>
+      <div class="prog-item">
+        <span>Password Misuse</span>
+        <span class="prog-check" id="prog-password">○</span>
+      </div>
+      <div class="prog-item">
+        <span>Social Engineering</span>
+        <span class="prog-check" id="prog-social">○</span>
+      </div>
+      <div class="prog-item">
+        <span>Pre-Assessment</span>
+        <span class="prog-check" id="prog-pre">○</span>
+      </div>
+      <div class="prog-item">
+        <span>Post-Assessment</span>
+        <span class="prog-check" id="prog-post">○</span>
+      </div>
+      <div class="score-display">
+        <div class="score-num" id="sidebar-score">0</div>
+        <div class="score-label">Total Points</div>
+      </div>
+      <div class="mt-2" id="results-link-wrap" style="display:none">
+        <a href="results.html" class="btn btn-primary" style="width:100%;justify-content:center">View Results →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  CyberGuard.refreshNavScore();
+  const s = CyberGuard.getState();
+
+  // Baseline warning
+  if (s.preAnxiety === null) {
+    document.getElementById('no-baseline-warning').style.display = 'block';
+  }
+
+  // Progress checks
+  const challenges = ['phishing', 'password', 'social'];
+  challenges.forEach(id => {
+    const done = s.challengesCompleted.includes(id);
+    document.getElementById('prog-' + id).textContent = done ? '✅' : '○';
+    if (done) document.getElementById('status-' + id).classList.add('done');
+  });
+
+  document.getElementById('prog-pre').textContent = s.preAnxiety ? '✅' : '○';
+  document.getElementById('prog-post').textContent = s.postAnxiety ? '✅' : '○';
+  document.getElementById('sidebar-score').textContent = s.score;
+
+  // Show results link if all done
+  if (s.challengesCompleted.length === 3) {
+    document.getElementById('results-link-wrap').style.display = 'block';
+  }
+</script>
+</body>
+</html>

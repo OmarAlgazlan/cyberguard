@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Results — CyberGuard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .post-gate {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 540px;
+      margin: 2rem auto;
+    }
+    .post-gate h3 { margin-bottom: 0.75rem; }
+    .post-gate p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem; }
+    .results-wrap { display: none; }
+    .delta-card {
+      background: linear-gradient(135deg, rgba(63,185,80,0.08), rgba(63,185,80,0.03));
+      border: 1px solid rgba(63,185,80,0.25);
+      border-radius: 8px;
+      padding: 1.75rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .delta-num { font-size: 3.5rem; font-weight: 800; color: var(--green); }
+    .delta-label { font-size: 0.85rem; color: var(--text-muted); }
+    .result-section { margin-bottom: 2rem; }
+    .result-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .modules-table { width: 100%; border-collapse: collapse; }
+    .modules-table th {
+      text-align: left; padding: 0.6rem 0.75rem;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dim); font-family: 'Space Mono', monospace;
+    }
+    .modules-table td { padding: 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .share-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .share-box h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+    .share-box p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+    .incomplete-warning {
+      background: rgba(227,179,65,0.08);
+      border: 1px solid rgba(227,179,65,0.2);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="challenges.html">Challenges</a></li>
+    <li><a href="results.html" style="color:var(--text)">Results</a></li>
+  </ul>
+  <div class="nav-score" id="nav-score">⬡ 0 pts</div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">Evaluation</div>
+    <h1>Your Training Results</h1>
+    <p>This page shows your performance across all modules and — most importantly — your anxiety change before and after the training.</p>
+  </div>
+
+  <div class="incomplete-warning" id="incomplete-warning">
+    ⚠ You haven't completed all challenge modules yet. <a href="challenges.html" style="color:var(--amber)">Return to challenges</a> to complete all three before viewing full results.
+  </div>
+
+  <!-- Post-anxiety gate -->
+  <div class="post-gate" id="post-gate">
+    <h3>📊 Final Step — Post-Assessment Rating</h3>
+    <p>You've completed the challenges. Now rate how anxious you feel about interacting with unknown digital content — has it changed?</p>
+    <div class="anxiety-scale" id="post-scale"></div>
+    <div class="scale-labels">
+      <span>1 — Not anxious</span>
+      <span>10 — Extremely anxious</span>
+    </div>
+    <div class="mt-2" id="post-submit" style="display:none">
+      <button class="btn btn-primary" onclick="showResults()">See My Results →</button>
+    </div>
+  </div>
+
+  <!-- Results (shown after post-rating) -->
+  <div class="results-wrap" id="results-wrap">
+
+    <!-- Delta / headline -->
+    <div class="delta-card" id="delta-card">
+      <div class="delta-num" id="delta-num">+0</div>
+      <div class="delta-label">Anxiety reduction score (pre minus post, higher is better)</div>
+    </div>
+
+    <!-- Anxiety comparison -->
+    <div class="result-section">
+      <h3>Anxiety Before vs After</h3>
+      <div class="anxiety-compare">
+        <div class="compare-row">
+          <span class="compare-label">Before</span>
+          <div class="compare-bar-wrap"><div class="compare-bar bar-before" id="bar-before" style="width:0%"></div></div>
+          <span class="compare-val" id="val-before">—</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">After</span>
+          <div class="compare-bar-wrap"><div class="compare-bar bar-after" id="bar-after" style="width:0%"></div></div>
+          <span class="compare-val" id="val-after">—</span>
+        </div>
+        <p id="anxiety-interpretation" style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem;line-height:1.6;"></p>
+      </div>
+    </div>
+
+    <!-- Score stats -->
+    <div class="result-section">
+      <h3>Performance Summary</h3>
+      <div class="results-grid">
+        <div class="stat-card">
+          <div class="stat-num text-amber" id="stat-score">0</div>
+          <div class="stat-label">Total Points</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num text-green" id="stat-accuracy">0%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num text-blue" id="stat-modules">0/3</div>
+          <div class="stat-label">Modules Done</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-correct">0</div>
+          <div class="stat-label">Correct Answers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module breakdown -->
+    <div class="result-section">
+      <h3>Module Breakdown</h3>
+      <table class="modules-table">
+        <tr>
+          <th>Module</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Focus</th>
+        </tr>
+        <tr id="row-phishing">
+          <td>🎣 Phishing</td>
+          <td><span class="tag tag-red">Red Team</span></td>
+          <td id="cell-phishing">—</td>
+          <td>Email analysis, domain verification</td>
+        </tr>
+        <tr id="row-password">
+          <td>🔐 Password Misuse</td>
+          <td><span class="tag tag-blue">Blue Team</span></td>
+          <td id="cell-password">—</td>
+          <td>Credential defence, MFA</td>
+        </tr>
+        <tr id="row-social">
+          <td>🎭 Social Engineering</td>
+          <td><span class="tag tag-amber">Mixed</span></td>
+          <td id="cell-social">—</td>
+          <td>Manipulation recognition</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Guidance -->
+    <div class="result-section">
+      <h3>Anxiety Reduction Guidance</h3>
+      <div class="guidance-box">
+        <h3>💡 What the research says</h3>
+        <p>Studies in behavioural cybersecurity (Bada & Sasse, 2014; Wash, 2010) show that repeated safe exposure to cyber threat simulations meaningfully reduces decision anxiety over time. The discomfort you may have felt during these scenarios is a normal part of building genuine competence — not a sign of failure.</p>
+        <div class="tips-list" style="margin-top:1rem">
+          <div class="tip"><span class="tip-icon">✓</span><span>Your score reflects learning, not security expertise — both improve with practice</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>Being tricked by a well-crafted scenario is normal — even security professionals are targeted</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>The key insight: slow down, check domains, verify independently, and trust your instincts</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>Replay any module to improve your score — this is the experiential learning loop</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share / reset -->
+    <div class="share-box">
+      <h3>Training Complete 🎉</h3>
+      <p>You've completed the CyberGuard anxiety reduction training. Your results have been recorded for evaluation purposes.</p>
+      <button class="btn btn-outline" onclick="resetAndStart()" style="margin-right:0.75rem">Start Over</button>
+      <a href="challenges.html" class="btn btn-primary">Replay Challenges</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  CyberGuard.refreshNavScore();
+  const s = CyberGuard.getState();
+
+  // Check completion
+  const allDone = s.challengesCompleted.length === 3;
+  if (!allDone) document.getElementById('incomplete-warning').style.display = 'block';
+
+  // Module status cells
+  ['phishing','password','social'].forEach(id => {
+    const done = s.challengesCompleted.includes(id);
+    document.getElementById('cell-' + id).innerHTML = done
+      ? '<span class="text-green">✓ Complete</span>'
+      : '<span class="text-muted">○ Incomplete</span>';
+  });
+
+  // If already has post-anxiety, skip gate
+  if (s.postAnxiety !== null) {
+    document.getElementById('post-gate').style.display = 'none';
+    renderResults();
+  }
+
+  // Build post-scale
+  const postScale = document.getElementById('post-scale');
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'anxiety-btn';
+    btn.textContent = i;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#post-scale .anxiety-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      CyberGuard.setPostAnxiety(i);
+      document.getElementById('post-submit').style.display = 'block';
+    });
+    postScale.appendChild(btn);
+  }
+
+  function showResults() {
+    document.getElementById('post-gate').style.display = 'none';
+    renderResults();
+  }
+
+  function renderResults() {
+    document.getElementById('results-wrap').style.display = 'block';
+    const st = CyberGuard.getState();
+
+    // Anxiety bars
+    const pre = st.preAnxiety || 5;
+    const post = st.postAnxiety || 5;
+    const delta = pre - post;
+
+    document.getElementById('val-before').textContent = pre;
+    document.getElementById('val-after').textContent = post;
+    document.getElementById('bar-before').style.width = (pre * 10) + '%';
+    document.getElementById('bar-after').style.width = (post * 10) + '%';
+
+    const dEl = document.getElementById('delta-num');
+    if (delta > 0) {
+      dEl.textContent = '-' + delta;
+      dEl.style.color = 'var(--green)';
+      document.getElementById('delta-card').style.background = 'linear-gradient(135deg, rgba(63,185,80,0.08), rgba(63,185,80,0.03))';
+    } else if (delta < 0) {
+      dEl.textContent = '+' + Math.abs(delta);
+      dEl.style.color = 'var(--amber)';
+      document.getElementById('delta-card').style.background = 'linear-gradient(135deg, rgba(227,179,65,0.08), rgba(227,179,65,0.03))';
+    } else {
+      dEl.textContent = '0';
+      dEl.style.color = 'var(--text-muted)';
+    }
+
+    // Interpretation
+    let interp = '';
+    if (delta >= 3) interp = `Your anxiety decreased by ${delta} points — a significant improvement consistent with the experiential exposure effect documented in behavioural cybersecurity literature.`;
+    else if (delta > 0) interp = `Your anxiety decreased by ${delta} point(s). Even small reductions are meaningful — anxiety reduction through exposure is cumulative across multiple sessions.`;
+    else if (delta === 0) interp = `Your anxiety rating stayed the same. This is common in a single session — the benefit often becomes apparent after repeated exposure and reflection.`;
+    else interp = `Your anxiety rating increased by ${Math.abs(delta)} point(s). This can happen when challenges surface previously unrecognised risks — awareness is the first stage of confidence-building.`;
+    document.getElementById('anxiety-interpretation').textContent = interp;
+
+    // Stats
+    CyberGuard.animateValue(document.getElementById('stat-score'), 0, st.score, 800);
+    document.getElementById('stat-accuracy').textContent = CyberGuard.getAccuracy() + '%';
+    document.getElementById('stat-modules').textContent = st.challengesCompleted.length + '/3';
+    document.getElementById('stat-correct').textContent = st.correctAnswers;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetAndStart() {
+    CyberGuard.resetState();
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>
