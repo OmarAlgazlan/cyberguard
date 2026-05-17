@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberGuard — Cybersecurity Anxiety Training Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero-features {
+      display: flex; gap: 2rem; justify-content: center;
+      flex-wrap: wrap; margin: 2rem 0;
+    }
+    .feat {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: var(--text-muted);
+      font-family: 'Space Mono', monospace;
+    }
+    .feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .scroll-hint {
+      position: absolute; bottom: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      color: var(--text-dim); text-transform: uppercase;
+      animation: pulse 2s infinite;
+    }
+    .about-section {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media(max-width:660px){ .about-section { grid-template-columns: 1fr; } }
+    .about-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+    .about-section p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
+    .stat-row { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .big-stat { text-align: center; }
+    .big-num { font-size: 2.2rem; font-weight: 800; color: var(--blue-bright); }
+    .big-label { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+    .how-section {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 2rem 2rem 6rem;
+    }
+    .how-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 2rem; text-align: center; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .step-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; color: var(--blue-bright);
+      letter-spacing: 0.1em; margin-bottom: 0.75rem;
+    }
+    .step h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .start-fixed {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" style="color:var(--text)">Home</a></li>
+    <li><a href="challenges.html">Challenges</a></li>
+    <li><a href="results.html">Results</a></li>
+  </ul>
+  <div class="nav-score" id="nav-score">⬡ 0 pts</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">⟨ Red–Blue Cybersecurity Training ⟩</span>
+  <h1>
+    Stop <span class="red">fearing</span> the<br>
+    threats. Start <span class="blue">owning</span> them.
+  </h1>
+  <p class="hero-sub">
+    A gamified cybersecurity training platform designed to reduce decision anxiety
+    through safe, interactive red-team and blue-team challenge simulations.
+  </p>
+
+  <div class="hero-features">
+    <div class="feat"><div class="feat-dot"></div> Phishing Simulation</div>
+    <div class="feat"><div class="feat-dot"></div> Password Misuse Scenarios</div>
+    <div class="feat"><div class="feat-dot"></div> Social Engineering Challenges</div>
+    <div class="feat"><div class="feat-dot"></div> Anxiety Guidance Module</div>
+  </div>
+
+  <!-- Pre-assessment card -->
+  <div class="anxiety-card" id="pre-assessment">
+    <h3>📊 Pre-Assessment — Baseline Anxiety Rating</h3>
+    <p>Before you start, rate how anxious you currently feel when interacting with unknown digital content (emails, links, messages). This helps us measure your progress.</p>
+    <div class="anxiety-scale" id="pre-scale"></div>
+    <div class="scale-labels">
+      <span>1 — Not anxious</span>
+      <span>10 — Extremely anxious</span>
+    </div>
+    <div class="mt-2" id="start-row" style="display:none">
+      <a href="challenges.html" class="btn btn-primary" id="start-btn">Begin Training →</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">↓ scroll to learn more</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div>
+    <h2>Why cybersecurity anxiety matters</h2>
+    <p>Social engineering attacks deliberately exploit psychological vulnerabilities — urgency, fear, and uncertainty — to provoke impulsive decisions. Many users either freeze or act without thinking when confronted with potential threats.</p>
+    <p>Traditional cybersecurity training is passive and knowledge-based. CyberGuard takes a different approach: <strong>experiential exposure</strong> in a safe environment, designed to build genuine confidence alongside awareness.</p>
+    <div class="stat-row">
+      <div class="big-stat"><div class="big-num">74%</div><div class="big-label">of breaches involve the human element (Verizon DBIR, 2023)</div></div>
+      <div class="big-stat"><div class="big-num">3×</div><div class="big-label">higher effectiveness for experiential vs. passive training</div></div>
+    </div>
+  </div>
+  <div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;">
+      <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);font-family:'Space Mono',monospace;margin-bottom:1rem;">Module Overview</div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:6px;">
+          <span style="font-size:1.3rem;">🎣</span>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;">Phishing Simulation</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Red team — spot the attacker's email</div>
+          </div>
+          <span class="tag-red tag" style="margin-left:auto">Red</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(227,179,65,0.06);border:1px solid rgba(227,179,65,0.15);border-radius:6px;">
+          <span style="font-size:1.3rem;">🔐</span>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;">Password Misuse</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Blue team — defend the account</div>
+          </div>
+          <span class="tag-amber tag" style="margin-left:auto">Blue</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.15);border-radius:6px;">
+          <span style="font-size:1.3rem;">🎭</span>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;">Social Engineering</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Mixed — identify manipulation tactics</div>
+          </div>
+          <span class="tag-blue tag" style="margin-left:auto">Mixed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 / ASSESS</div>
+      <h3>Baseline anxiety rating</h3>
+      <p>You rate your current cybersecurity anxiety level on a 1–10 scale before beginning any challenges.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02 / SIMULATE</div>
+      <h3>Red-blue challenges</h3>
+      <p>Work through realistic threat scenarios as both attacker and defender. Each choice is explained with immediate feedback.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03 / REFLECT</div>
+      <h3>Guidance module</h3>
+      <p>After each scenario, receive targeted anxiety-reduction guidance and confidence-building tips specific to what you just experienced.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04 / MEASURE</div>
+      <h3>Post-assessment</h3>
+      <p>Rate your anxiety again. See your before-and-after score alongside your accuracy and points — evidence of your growth.</p>
+    </div>
+  </div>
+</section>
+
+<script src="app.js"></script>
+<script>
+  // Render scale
+  const scale = document.getElementById('pre-scale');
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'anxiety-btn';
+    btn.textContent = i;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.anxiety-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      CyberGuard.setPreAnxiety(i);
+      document.getElementById('start-row').style.display = 'block';
+    });
+    scale.appendChild(btn);
+  }
+
+  // Nav score
+  CyberGuard.refreshNavScore();
+
+  // If already done pre-assessment, show start row
+  const s = CyberGuard.getState();
+  if (s.preAnxiety !== null) {
+    document.getElementById('start-row').style.display = 'block';
+    const btns = document.querySelectorAll('.anxiety-btn');
+    if (btns[s.preAnxiety - 1]) btns[s.preAnxiety - 1].classList.add('selected');
+  }
+</script>
+</body>
+</html>
