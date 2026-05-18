@@ -87,7 +87,7 @@
           <div class="card-status" id="status-phishing"></div>
           <div class="card-icon">🎣</div>
           <h3>Phishing Simulation</h3>
-          <p>Analyse a series of suspicious emails and decide: legitimate or attack? Play both attacker and defender perspectives.</p>
+          <p>Analyse a series of suspicious emails and decide: legitimate or attack? Read each email and decide: real or scam? Learn the signs that give fakes away.</p>
           <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
             <span class="tag tag-red">Red Team</span>
             <span class="tag tag-amber">+150 pts</span>
@@ -100,7 +100,7 @@
           <div class="card-status" id="status-password"></div>
           <div class="card-icon">🔐</div>
           <h3>Password Misuse</h3>
-          <p>Defend an account under attack. Identify weak credentials, respond to credential stuffing, and choose recovery actions.</p>
+          <p>What do you do when someone is trying to break into your account? Practice the right responses.</p>
           <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
             <span class="tag tag-blue">Blue Team</span>
             <span class="tag tag-amber">+120 pts</span>
@@ -113,7 +113,7 @@
           <div class="card-status" id="status-social"></div>
           <div class="card-icon">🎭</div>
           <h3>Social Engineering</h3>
-          <p>Recognise psychological manipulation tactics in chat, phone and in-person scenarios. Can you spot the attacker?</p>
+          <p>Scam calls, fake job offers, suspicious messages. Can you spot the trap before it works?</p>
           <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
             <span class="tag tag-blue">Mixed</span>
             <span class="tag tag-amber">+130 pts</span>
@@ -164,6 +164,7 @@
 </div>
 
 <script src="app.js"></script>
+<script src="breathing.js"></script>
 <script>
   CyberGuard.refreshNavScore();
   const s = CyberGuard.getState();
@@ -188,6 +189,19 @@
   // Show results link if all done
   if (s.challengesCompleted.length === 3) {
     document.getElementById('results-link-wrap').style.display = 'block';
+  }
+
+  // ── TECHNIQUE 1: Box Breathing ──────────────────────────────────
+  // Trigger on first visit to challenges page this session.
+  // Grounded in Jerath et al. (2006) — slow paced breathing
+  // activates the parasympathetic nervous system, reducing
+  // physiological arousal before threat exposure begins.
+  // Only shown if user has set their pre-anxiety baseline.
+  if (s.preAnxiety !== null) {
+    BreathingExercise.show(() => {
+      // Breathing complete — challenges are now accessible
+      console.log('CyberGuard: breathing exercise complete');
+    });
   }
 </script>
 </body>

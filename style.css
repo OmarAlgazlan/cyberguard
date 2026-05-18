@@ -630,3 +630,212 @@ nav {
 }
 
 .next-btn-row { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* ═══════════════════════════════════════════════════
+   ANXIETY REGULATION FRAMEWORK — Three-Layer System
+   1. Box Breathing (physiological)
+   2. Cognitive Reappraisal Pause (cognitive)
+   3. Confidence Scaffolding (behavioural)
+═══════════════════════════════════════════════════ */
+
+/* ── 1. BOX BREATHING OVERLAY ── */
+.breathing-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,12,16,0.97);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease;
+}
+.breathing-overlay.hidden { display: none; }
+
+.breath-title {
+  font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--blue-bright); font-family: 'Space Mono', monospace;
+  margin-bottom: 0.5rem;
+}
+.breath-subtitle {
+  font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem;
+  max-width: 420px; text-align: center; line-height: 1.6;
+}
+
+.box-container {
+  position: relative;
+  width: 220px; height: 220px;
+  margin-bottom: 2.5rem;
+}
+
+/* The animated square border drawn with SVG-like CSS */
+.box-svg {
+  width: 220px; height: 220px;
+  position: absolute; inset: 0;
+}
+.box-path {
+  fill: none;
+  stroke: var(--blue-bright);
+  stroke-width: 2;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  opacity: 0.6;
+}
+.box-path.animate {
+  animation: drawBox 16s linear forwards;
+}
+
+@keyframes drawBox {
+  0%   { stroke-dashoffset: 800; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.box-glow {
+  position: absolute; inset: 20px;
+  border-radius: 4px;
+  background: radial-gradient(ellipse at center, rgba(31,111,235,0.15), transparent 70%);
+  animation: breatheGlow 16s ease-in-out forwards;
+}
+
+@keyframes breatheGlow {
+  0%,100% { opacity: 0.3; transform: scale(0.9); }
+  25%      { opacity: 0.8; transform: scale(1.05); }
+  50%      { opacity: 0.8; transform: scale(1.05); }
+  75%      { opacity: 0.2; transform: scale(0.85); }
+}
+
+.breath-instruction {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+}
+.breath-word {
+  font-size: 1.3rem; font-weight: 800; color: var(--text);
+  letter-spacing: 0.05em; margin-bottom: 0.25rem;
+  transition: opacity 0.4s;
+}
+.breath-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 2.5rem; font-weight: 700;
+  color: var(--blue-bright);
+  min-width: 60px; text-align: center;
+}
+.breath-phase-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-top: 0.25rem;
+}
+
+.breath-progress {
+  display: flex; gap: 0.5rem; margin-bottom: 2rem;
+}
+.breath-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); transition: background 0.3s;
+}
+.breath-dot.active { background: var(--blue-bright); }
+.breath-dot.done { background: var(--green); }
+
+.breath-skip {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-dim); font-size: 0.78rem;
+  font-family: 'Space Mono', monospace;
+  text-decoration: underline; padding: 0.5rem;
+  transition: color 0.2s;
+}
+.breath-skip:hover { color: var(--text-muted); }
+
+.breath-complete-msg {
+  text-align: center; padding: 1rem;
+}
+.breath-complete-msg h3 {
+  color: var(--green); font-size: 1.2rem; margin-bottom: 0.5rem;
+}
+.breath-complete-msg p {
+  color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;
+}
+
+/* ── 2. COGNITIVE REAPPRAISAL PAUSE ── */
+.reappraisal-banner {
+  background: linear-gradient(135deg, rgba(31,111,235,0.06), rgba(8,12,16,0));
+  border: 1px solid rgba(88,166,255,0.15);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  animation: fadeIn 0.4s ease;
+}
+.reappraisal-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+.reappraisal-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+.reappraisal-text strong { color: var(--blue-bright); }
+
+.choices-locked {
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.choices-locked.unlocked {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.unlock-timer {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; color: var(--text-dim);
+  text-align: center; margin-top: 0.5rem;
+  letter-spacing: 0.1em;
+  min-height: 1.2em;
+}
+
+/* ── 3. CONFIDENCE SCAFFOLDING ── */
+.difficulty-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem; border-radius: 2px;
+  margin-bottom: 1rem;
+}
+.difficulty-badge.easy {
+  color: var(--green); background: rgba(63,185,80,0.08);
+  border: 1px solid rgba(63,185,80,0.2);
+}
+.difficulty-badge.medium {
+  color: var(--amber); background: rgba(227,179,65,0.08);
+  border: 1px solid rgba(227,179,65,0.2);
+}
+.difficulty-badge.hard {
+  color: var(--red); background: rgba(255,59,59,0.08);
+  border: 1px solid rgba(255,59,59,0.2);
+}
+
+.streak-banner {
+  display: none;
+  background: linear-gradient(135deg, rgba(63,185,80,0.1), rgba(63,185,80,0.03));
+  border: 1px solid rgba(63,185,80,0.25);
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: var(--green);
+  font-weight: 600;
+  animation: fadeIn 0.3s ease;
+}
+.streak-banner.show { display: flex; align-items: center; gap: 0.5rem; }
+
+.confidence-meter-wrap {
+  margin-bottom: 1.5rem;
+}
+.confidence-meter-label {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 0.4rem;
+  display: flex; justify-content: space-between;
+}
+.confidence-meter-bar {
+  height: 3px; background: var(--surface2);
+  border-radius: 2px; overflow: hidden;
+}
+.confidence-meter-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue-bright), var(--green));
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  width: 0%;
+}

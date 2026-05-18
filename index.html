@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberGuard — Cybersecurity Anxiety Training Platform</title>
+  <title>CyberGuard — Cybersecurity Confidence Training</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .hero-features {
@@ -59,10 +59,19 @@
     }
     .step h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
     .step p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
-    .start-fixed {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 50;
-      display: none;
+    .no-jargon-banner {
+      background: rgba(63,185,80,0.07);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      max-width: 540px;
+      margin-left: auto; margin-right: auto;
     }
+    .no-jargon-banner strong { color: var(--green); }
   </style>
 </head>
 <body>
@@ -79,34 +88,38 @@
 
 <!-- HERO -->
 <section class="hero">
-  <span class="hero-tag">⟨ Red–Blue Cybersecurity Training ⟩</span>
+  <span class="hero-tag">Free · No account needed · Takes about 25 minutes</span>
   <h1>
-    Stop <span class="red">fearing</span> the<br>
-    threats. Start <span class="blue">owning</span> them.
+    Feel more <span class="blue">confident</span> online.<br>
+    Stop second-guessing every<br>
+    <span class="red">email, link and message.</span>
   </h1>
   <p class="hero-sub">
-    A gamified cybersecurity training platform designed to reduce decision anxiety
-    through safe, interactive red-team and blue-team challenge simulations.
+    CyberGuard is a free training tool that helps you recognise online scams and feel less anxious about them — through short, realistic practice scenarios. No technical knowledge needed.
   </p>
 
+  <div class="no-jargon-banner">
+    <strong>No experience needed.</strong> Every term is explained as you go. If you've ever felt unsure about clicking a link or replying to a suspicious message, this is for you.
+  </div>
+
   <div class="hero-features">
-    <div class="feat"><div class="feat-dot"></div> Phishing Simulation</div>
-    <div class="feat"><div class="feat-dot"></div> Password Misuse Scenarios</div>
-    <div class="feat"><div class="feat-dot"></div> Social Engineering Challenges</div>
-    <div class="feat"><div class="feat-dot"></div> Anxiety Guidance Module</div>
+    <div class="feat"><div class="feat-dot"></div> Spot fake emails</div>
+    <div class="feat"><div class="feat-dot"></div> Protect your passwords</div>
+    <div class="feat"><div class="feat-dot"></div> Recognise scam calls and messages</div>
+    <div class="feat"><div class="feat-dot"></div> Feel calmer and more in control</div>
   </div>
 
   <!-- Pre-assessment card -->
   <div class="anxiety-card" id="pre-assessment">
-    <h3>📊 Pre-Assessment — Baseline Anxiety Rating</h3>
-    <p>Before you start, rate how anxious you currently feel when interacting with unknown digital content (emails, links, messages). This helps us measure your progress.</p>
+    <h3>📊 First: How anxious do you feel online right now?</h3>
+    <p>Before you start, rate how worried you feel when you get an unexpected email, link, or message. There are no wrong answers — this is just your starting point so we can measure how much you improve.</p>
     <div class="anxiety-scale" id="pre-scale"></div>
     <div class="scale-labels">
-      <span>1 — Not anxious</span>
-      <span>10 — Extremely anxious</span>
+      <span>1 — Not worried at all</span>
+      <span>10 — Very worried</span>
     </div>
     <div class="mt-2" id="start-row" style="display:none">
-      <a href="challenges.html" class="btn btn-primary" id="start-btn">Begin Training →</a>
+      <a href="challenges.html" class="btn btn-primary" id="start-btn">Start Training →</a>
     </div>
   </div>
 
@@ -116,41 +129,38 @@
 <!-- ABOUT -->
 <section class="about-section">
   <div>
-    <h2>Why cybersecurity anxiety matters</h2>
-    <p>Social engineering attacks deliberately exploit psychological vulnerabilities — urgency, fear, and uncertainty — to provoke impulsive decisions. Many users either freeze or act without thinking when confronted with potential threats.</p>
-    <p>Traditional cybersecurity training is passive and knowledge-based. CyberGuard takes a different approach: <strong>experiential exposure</strong> in a safe environment, designed to build genuine confidence alongside awareness.</p>
+    <h2>Why do we feel anxious online?</h2>
+    <p>Online scams and attacks are specifically designed to make you feel panic, urgency, and fear. That feeling is not a sign you're weak — it's exactly what the attacker is counting on.</p>
+    <p>Most online safety training just tells you facts. CyberGuard does something different: it lets you <strong>practise</strong> in a safe environment until the anxiety fades and confidence takes its place.</p>
     <div class="stat-row">
-      <div class="big-stat"><div class="big-num">74%</div><div class="big-label">of breaches involve the human element (Verizon DBIR, 2023)</div></div>
-      <div class="big-stat"><div class="big-num">3×</div><div class="big-label">higher effectiveness for experiential vs. passive training</div></div>
+      <div class="big-stat"><div class="big-num">74%</div><div class="big-label">of all data breaches involve a human being tricked (Verizon, 2023)</div></div>
+      <div class="big-stat"><div class="big-num">3×</div><div class="big-label">more effective: practice vs. reading about it</div></div>
     </div>
   </div>
   <div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;">
-      <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);font-family:'Space Mono',monospace;margin-bottom:1rem;">Module Overview</div>
+      <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);font-family:'Space Mono',monospace;margin-bottom:1rem;">What you'll practise</div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.15);border-radius:6px;">
           <span style="font-size:1.3rem;">🎣</span>
           <div>
-            <div style="font-size:0.85rem;font-weight:700;">Phishing Simulation</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);">Red team — spot the attacker's email</div>
+            <div style="font-size:0.85rem;font-weight:700;">Spotting fake emails</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Learn to tell real emails from scams</div>
           </div>
-          <span class="tag-red tag" style="margin-left:auto">Red</span>
         </div>
         <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(227,179,65,0.06);border:1px solid rgba(227,179,65,0.15);border-radius:6px;">
           <span style="font-size:1.3rem;">🔐</span>
           <div>
-            <div style="font-size:0.85rem;font-weight:700;">Password Misuse</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);">Blue team — defend the account</div>
+            <div style="font-size:0.85rem;font-weight:700;">Protecting your passwords</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">What to do when an account is under attack</div>
           </div>
-          <span class="tag-amber tag" style="margin-left:auto">Blue</span>
         </div>
         <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.15);border-radius:6px;">
           <span style="font-size:1.3rem;">🎭</span>
           <div>
-            <div style="font-size:0.85rem;font-weight:700;">Social Engineering</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);">Mixed — identify manipulation tactics</div>
+            <div style="font-size:0.85rem;font-weight:700;">Recognising scam calls and messages</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Spot the tricks before they work</div>
           </div>
-          <span class="tag-blue tag" style="margin-left:auto">Mixed</span>
         </div>
       </div>
     </div>
@@ -159,34 +169,33 @@
 
 <!-- HOW IT WORKS -->
 <section class="how-section">
-  <h2>How it works</h2>
+  <h2>How it works — 4 simple steps</h2>
   <div class="steps">
     <div class="step">
-      <div class="step-num">01 / ASSESS</div>
-      <h3>Baseline anxiety rating</h3>
-      <p>You rate your current cybersecurity anxiety level on a 1–10 scale before beginning any challenges.</p>
+      <div class="step-num">01 / RATE</div>
+      <h3>Rate your anxiety</h3>
+      <p>You rate how worried you feel about online threats right now, on a scale of 1 to 10. This is your starting point.</p>
     </div>
     <div class="step">
-      <div class="step-num">02 / SIMULATE</div>
-      <h3>Red-blue challenges</h3>
-      <p>Work through realistic threat scenarios as both attacker and defender. Each choice is explained with immediate feedback.</p>
+      <div class="step-num">02 / PRACTISE</div>
+      <h3>Work through scenarios</h3>
+      <p>You'll face realistic situations — a suspicious email, a scam phone call, a dodgy message. You choose what to do. No pressure, no time limit.</p>
     </div>
     <div class="step">
-      <div class="step-num">03 / REFLECT</div>
-      <h3>Guidance module</h3>
-      <p>After each scenario, receive targeted anxiety-reduction guidance and confidence-building tips specific to what you just experienced.</p>
+      <div class="step-num">03 / LEARN</div>
+      <h3>Get calm, clear feedback</h3>
+      <p>After each choice, you see exactly what was happening and why. Guidance is written to reduce stress, not add to it.</p>
     </div>
     <div class="step">
       <div class="step-num">04 / MEASURE</div>
-      <h3>Post-assessment</h3>
-      <p>Rate your anxiety again. See your before-and-after score alongside your accuracy and points — evidence of your growth.</p>
+      <h3>See your improvement</h3>
+      <p>Rate your anxiety again at the end. See your before-and-after score — most people feel noticeably calmer after a single session.</p>
     </div>
   </div>
 </section>
 
 <script src="app.js"></script>
 <script>
-  // Render scale
   const scale = document.getElementById('pre-scale');
   for (let i = 1; i <= 10; i++) {
     const btn = document.createElement('button');
@@ -201,10 +210,8 @@
     scale.appendChild(btn);
   }
 
-  // Nav score
   CyberGuard.refreshNavScore();
 
-  // If already done pre-assessment, show start row
   const s = CyberGuard.getState();
   if (s.preAnxiety !== null) {
     document.getElementById('start-row').style.display = 'block';
