@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phishing — CyberGuard</title>
+  <title>Phishing, CyberGuard</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .module-intro {
@@ -94,9 +94,9 @@
 
 <div class="page">
   <div class="page-header">
-    <div class="page-tag">Module 1 — Fake Emails</div>
+    <div class="page-tag">Module 1, Fake Emails</div>
     <h1>Phishing Simulation</h1>
-    <p>Practice spotting fake emails — before you encounter them in real life.</p>
+    <p>Practice spotting fake emails, before you encounter them in real life.</p>
   </div>
 
   <!-- Plain English intro shown before first scenario -->
@@ -105,17 +105,17 @@
     <h2>What is a phishing email?</h2>
     <div class="plain-explainer">
       <h4>📧 Plain English explanation</h4>
-      <p>A <strong>phishing email</strong> is a fake email designed to trick you. Criminals send emails pretending to be your bank, a delivery company, or a website like PayPal — to get you to click a link or hand over your password. They look very convincing because they copy real logos and language.</p>
+      <p>A <strong>phishing email</strong> is a fake email designed to trick you. Criminals send emails pretending to be your bank, a delivery company, or a website like PayPal, to get you to click a link or hand over your password. They look very convincing because they copy real logos and language.</p>
     </div>
     <div class="plain-explainer">
       <h4>😰 Why does it make us anxious?</h4>
-      <p>These emails use panic on purpose — "your account has been suspended", "you owe money", "act within 24 hours". That feeling of urgency is the weapon. When we're scared, we don't think clearly. Recognising that tactic is your best defence.</p>
+      <p>These emails use panic on purpose, "your account has been suspended", "you owe money", "act within 24 hours". That feeling of urgency is the weapon. When we're scared, we don't think clearly. Recognising that tactic is your best defence.</p>
     </div>
     <div class="task-box">
       <h4>🎯 Your task in this module</h4>
-      <p>You'll see 5 emails. For each one, decide: is this email real, or is it a scam? Read it carefully — especially the email address it came from — then choose your response. There's no time limit. Take your time.</p>
+      <p>You'll see 5 emails. For each one, decide: is this email real, or is it a scam? Read it carefully, especially the email address it came from, then choose your response. There's no time limit. Take your time.</p>
     </div>
-    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready — show me the first email →</button>
+    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready, show me the first email →</button>
   </div>
 
   <!-- Progress bar -->
@@ -130,7 +130,7 @@
         <div class="toolbar-dot dot-red"></div>
         <div class="toolbar-dot dot-amber"></div>
         <div class="toolbar-dot dot-green"></div>
-        <div class="toolbar-url" id="email-client-label">Inbox — Mail Client</div>
+        <div class="toolbar-url" id="email-client-label">Inbox, Mail Client</div>
       </div>
       <div class="scenario-body" id="scenario-body"></div>
     </div>
@@ -166,10 +166,10 @@
       <h3>💡 What to remember</h3>
       <p>Phishing emails use fear and urgency on purpose. Now that you know the pattern, you can pause and check instead of reacting. That pause is everything.</p>
       <div class="tips-list">
-        <div class="tip"><span class="tip-icon">✓</span><span>Always check the actual email address — not just the name shown</span></div>
-        <div class="tip"><span class="tip-icon">✓</span><span>Hover over links before clicking — the real address shows in the bottom bar</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Always check the actual email address, not just the name shown</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Hover over links before clicking, the real address shows in the bottom bar</span></div>
         <div class="tip"><span class="tip-icon">✓</span><span>Genuine organisations never ask for your password via email</span></div>
-        <div class="tip"><span class="tip-icon">✓</span><span>When in doubt, go directly to the website yourself — don't use the link</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>When in doubt, go directly to the website yourself, don't use the link</span></div>
       </div>
     </div>
     <a href="challenges.html" class="btn btn-primary">← Back to Challenges</a>
@@ -186,7 +186,7 @@ const scenarios = [
     from_name: 'NatWest Security Team',
     from_email: 'security@natwest-account-alert.com',
     to: 'you@email.com',
-    subject: '⚠️ Your account has been suspended — Immediate action required',
+    subject: '⚠️ Your account has been suspended, Immediate action required',
     url: 'natwest-account-alert.com/inbox',
     body: `<p>Dear Valued Customer,</p>
     <p style="margin-top:0.75rem">We have detected <span class="highlight">unusual activity</span> on your account. For your protection, your online banking access has been temporarily suspended.</p>
@@ -194,17 +194,17 @@ const scenarios = [
     <a class="cta-link">🔒 Verify My Account Now</a>`,
     is_phish: true,
     flags: [
-      'Sender domain: natwest-account-alert.com — not natwest.com',
-      'Urgent 24-hour deadline — pressure tactic',
+      'Sender domain: natwest-account-alert.com, not natwest.com',
+      'Urgent 24-hour deadline, pressure tactic',
       'Generic greeting: "Valued Customer" not your name',
       'Threatening consequence (suspension) to create fear',
     ],
-    hint: "Look closely at where the email came from — the address after the @ symbol. Real NatWest emails only come from @natwest.com",
+    hint: "Look closely at where the email came from, the address after the @ symbol. Real NatWest emails only come from @natwest.com",
     choices: [
-      { text: 'Click "Verify My Account" — my account might genuinely be suspended', correct: false, type: 'wrong', feedback: 'This is a scam email (called phishing). The address "natwest-account-alert.com" is not NatWest\'s real address. The urgency, vague greeting, and threatening language are classic signs. Clicking would take you to a fake website designed to steal your login.' },
+      { text: 'Click "Verify My Account", my account might genuinely be suspended', correct: false, type: 'wrong', feedback: 'This is a scam email (called phishing). The address "natwest-account-alert.com" is not NatWest\'s real address. The urgency, vague greeting, and threatening language are classic signs. Clicking would take you to a fake website designed to steal your login.' },
       { text: 'Delete the email and log into NatWest directly at natwest.com', correct: true, type: 'correct', feedback: 'Correct. Never use links in emails. If you\'re worried about your account, go directly to natwest.com in a new browser tab. The fake domain, generic greeting, and artificial urgency all confirm this is a scam.' },
-      { text: 'Forward it to a colleague to check', correct: false, type: 'neutral', feedback: 'You haven\'t clicked anything, so you\'re safe — but forwarding suspicious emails can spread the risk. Better to delete it and check your account directly at natwest.com.' },
-      { text: 'Reply to ask if it is genuine', correct: false, type: 'wrong', feedback: 'Replying tells the scammer your email address is active — useful information for them. Never respond to suspicious emails. Check your account by going directly to natwest.com.' },
+      { text: 'Forward it to a colleague to check', correct: false, type: 'neutral', feedback: 'You haven\'t clicked anything, so you\'re safe, but forwarding suspicious emails can spread the risk. Better to delete it and check your account directly at natwest.com.' },
+      { text: 'Reply to ask if it is genuine', correct: false, type: 'wrong', feedback: 'Replying tells the scammer your email address is active, useful information for them. Never respond to suspicious emails. Check your account by going directly to natwest.com.' },
     ],
     points: 30,
   },
@@ -221,16 +221,16 @@ const scenarios = [
     <p style="margin-top:0.75rem" style="font-size:0.78rem;color:var(--text-muted)">This code expires in 10 minutes.</p>`,
     is_phish: false,
     flags: [
-      'Sender domain: microsoft.com — this is the real Microsoft domain',
+      'Sender domain: microsoft.com, this is the real Microsoft domain',
       'No urgent threats or pressure tactics',
       'Does not ask you to click anything',
       'Gives you the option to ignore if you didn\'t request it',
     ],
     hint: "Check the sender address carefully. Does it match the real company? Also notice: this email doesn't pressure you to do anything suspicious.",
     choices: [
-      { text: 'This looks suspicious — delete it', correct: false, type: 'wrong', feedback: 'This is actually a legitimate Microsoft security code email. The domain "microsoft.com" is correct, it doesn\'t ask you to click anything suspicious, and it reassures you that ignoring is fine if you didn\'t request it. Legitimate emails don\'t pressure you.' },
-      { text: 'It looks legitimate — use the code if I requested it, ignore if I didn\'t', correct: true, type: 'correct', feedback: 'Correct. This is a real Microsoft security code email. The sender domain is genuine, there are no pressure tactics, and it explicitly says you can ignore it. The ability to recognise legitimate emails is just as important as spotting fakes.' },
-      { text: 'Reply asking Microsoft to confirm this is real', correct: false, type: 'neutral', feedback: 'The email itself gives you enough information to judge — the real domain and no suspicious requests. You don\'t need to reply. If unsure, log in to your Microsoft account directly through account.microsoft.com to check.' },
+      { text: 'This looks suspicious, delete it', correct: false, type: 'wrong', feedback: 'This is actually a legitimate Microsoft security code email. The domain "microsoft.com" is correct, it doesn\'t ask you to click anything suspicious, and it reassures you that ignoring is fine if you didn\'t request it. Legitimate emails don\'t pressure you.' },
+      { text: 'It looks legitimate, use the code if I requested it, ignore if I didn\'t', correct: true, type: 'correct', feedback: 'Correct. This is a real Microsoft security code email. The sender domain is genuine, there are no pressure tactics, and it explicitly says you can ignore it. The ability to recognise legitimate emails is just as important as spotting fakes.' },
+      { text: 'Reply asking Microsoft to confirm this is real', correct: false, type: 'neutral', feedback: 'The email itself gives you enough information to judge, the real domain and no suspicious requests. You don\'t need to reply. If unsure, log in to your Microsoft account directly through account.microsoft.com to check.' },
     ],
     points: 25,
   },
@@ -239,7 +239,7 @@ const scenarios = [
     from_name: 'Amazon',
     from_email: 'order-update@amazon-deliveries-uk.co',
     to: 'you@email.com',
-    subject: 'Your package could not be delivered — reschedule now',
+    subject: 'Your package could not be delivered, reschedule now',
     url: 'amazon-deliveries-uk.co/reschedule',
     body: `<p>Hello,</p>
     <p style="margin-top:0.75rem">We attempted to deliver your package today but were unable to complete the delivery. Your item will be returned to the warehouse if you do not <span class="highlight">reschedule within 48 hours</span>.</p>
@@ -247,14 +247,14 @@ const scenarios = [
     <a class="cta-link">Reschedule My Delivery</a>`,
     is_phish: true,
     flags: [
-      'Domain: amazon-deliveries-uk.co — not amazon.co.uk',
-      'Requests payment (£1.45) — Amazon never does this via email',
+      'Domain: amazon-deliveries-uk.co, not amazon.co.uk',
+      'Requests payment (£1.45), Amazon never does this via email',
       '48-hour deadline to create pressure',
       'Vague: doesn\'t mention your name, order number, or what was ordered',
     ],
     hint: "Amazon's real emails come from @amazon.co.uk. Also, when did you last order something? Scammers send these to everyone hoping someone is expecting a parcel.",
     choices: [
-      { text: 'Pay the £1.45 — it\'s a small amount and I might have a package coming', correct: false, type: 'wrong', feedback: 'This is a delivery scam — one of the most common in the UK. The domain "amazon-deliveries-uk.co" is not Amazon\'s real address. Amazon never charges redelivery fees via email. The small amount is deliberate — it seems harmless. But entering your card details gives the scammer your financial information.' },
+      { text: 'Pay the £1.45, it\'s a small amount and I might have a package coming', correct: false, type: 'wrong', feedback: 'This is a delivery scam, one of the most common in the UK. The domain "amazon-deliveries-uk.co" is not Amazon\'s real address. Amazon never charges redelivery fees via email. The small amount is deliberate, it seems harmless. But entering your card details gives the scammer your financial information.' },
       { text: 'Check the Amazon app or website directly for any delivery updates', correct: true, type: 'correct', feedback: 'Correct. Always check the official app or website for delivery information. Real delivery issues appear there. The fake domain, payment request, and lack of order details all confirm this is a scam.' },
       { text: 'Forward to Amazon customer service to check', correct: false, type: 'neutral', feedback: 'You can report phishing to Amazon (stop-spoofing@amazon.com), which is helpful. But the most important thing is not clicking the link or paying. Checking your actual orders in the app is the fastest way to know if this is real.' },
     ],
@@ -273,16 +273,16 @@ const scenarios = [
     <a class="cta-link">Claim My Tax Refund</a>`,
     is_phish: true,
     flags: [
-      'Domain: hmrc-taxrebate.org — HMRC\'s real domain is gov.uk',
-      'HMRC never contacts you by email about refunds — they use post',
-      'Asks for bank details via email — a major red flag',
+      'Domain: hmrc-taxrebate.org, HMRC\'s real domain is gov.uk',
+      'HMRC never contacts you by email about refunds, they use post',
+      'Asks for bank details via email, a major red flag',
       'Specific amount and deadline to make it feel credible',
     ],
-    hint: "HMRC (the UK tax office) communicates by post for refunds, not by email. Their real website is gov.uk — nothing else. Any email claiming to be HMRC about money is a scam.",
+    hint: "HMRC (the UK tax office) communicates by post for refunds, not by email. Their real website is gov.uk, nothing else. Any email claiming to be HMRC about money is a scam.",
     choices: [
-      { text: 'Click the link — £312.50 is a lot of money and sounds plausible', correct: false, type: 'wrong', feedback: 'This is an HMRC phishing scam. HMRC never contacts people by email about tax refunds — they always use post. Their real website is gov.uk. The domain "hmrc-taxrebate.org" is completely fake. Entering your bank details would give the scammer access to your account.' },
-      { text: 'Log in to my HMRC account on gov.uk to check if there really is a refund', correct: true, type: 'correct', feedback: 'Perfect response. If you genuinely have a tax refund, it will show in your personal tax account at gov.uk/personal-tax-account. Never trust an email about money — always verify independently through the official government website.' },
-      { text: 'Call HMRC to check if this is genuine', correct: false, type: 'neutral', feedback: 'Calling HMRC is a reasonable idea, but make sure you use the number from gov.uk — not any number provided in the email. Checking your online tax account at gov.uk is actually faster and just as safe.' },
+      { text: 'Click the link, £312.50 is a lot of money and sounds plausible', correct: false, type: 'wrong', feedback: 'This is an HMRC phishing scam. HMRC never contacts people by email about tax refunds, they always use post. Their real website is gov.uk. The domain "hmrc-taxrebate.org" is completely fake. Entering your bank details would give the scammer access to your account.' },
+      { text: 'Log in to my HMRC account on gov.uk to check if there really is a refund', correct: true, type: 'correct', feedback: 'Perfect response. If you genuinely have a tax refund, it will show in your personal tax account at gov.uk/personal-tax-account. Never trust an email about money, always verify independently through the official government website.' },
+      { text: 'Call HMRC to check if this is genuine', correct: false, type: 'neutral', feedback: 'Calling HMRC is a reasonable idea, but make sure you use the number from gov.uk, not any number provided in the email. Checking your online tax account at gov.uk is actually faster and just as safe.' },
     ],
     points: 35,
   },
@@ -300,14 +300,14 @@ const scenarios = [
     <p style="margin-top:0.75rem;font-size:0.75rem;color:var(--text-dim)">PayPal · 2211 North First Street, San Jose, CA 95131</p>`,
     is_phish: true,
     flags: [
-      'Domain: paypal-secure-login.net — not paypal.com',
+      'Domain: paypal-secure-login.net, not paypal.com',
       'Real PayPal address at the bottom is stolen from a genuine email',
-      '"Dear User" — PayPal always uses your actual name',
-      '48-hour permanent closure threat — extreme pressure',
+      '"Dear User", PayPal always uses your actual name',
+      '48-hour permanent closure threat, extreme pressure',
     ],
-    hint: "Notice the real PayPal address at the bottom? Scammers copy this from real emails to look credible. But the address the email came from — paypal-secure-login.net — is the giveaway.",
+    hint: "Notice the real PayPal address at the bottom? Scammers copy this from real emails to look credible. But the address the email came from, paypal-secure-login.net, is the giveaway.",
     choices: [
-      { text: 'The address at the bottom matches PayPal — this must be real', correct: false, type: 'wrong', feedback: 'This is a sophisticated scam. Criminals deliberately copy real details (addresses, legal text) from genuine PayPal emails to appear authentic. But the email address it came from — paypal-secure-login.net — is not paypal.com. That\'s the only thing that matters.' },
+      { text: 'The address at the bottom matches PayPal, this must be real', correct: false, type: 'wrong', feedback: 'This is a sophisticated scam. Criminals deliberately copy real details (addresses, legal text) from genuine PayPal emails to appear authentic. But the email address it came from, paypal-secure-login.net, is not paypal.com. That\'s the only thing that matters.' },
       { text: 'Report as suspicious and log in to PayPal directly at paypal.com to check', correct: true, type: 'correct', feedback: 'Perfect. The stolen address is a deliberate trick. The email domain is the real test: paypal-secure-login.net vs paypal.com. You\'ve now seen one of the most advanced phishing techniques and spotted it correctly.' },
     ],
     points: 40,
@@ -377,12 +377,12 @@ function render() {
     <div class="choices" id="choices"></div>
   `;
 
-  // Technique 3: Confidence Scaffolding — difficulty badge
+  // Technique 3: Confidence Scaffolding, difficulty badge
   const body = document.getElementById('scenario-body');
   body.insertAdjacentHTML('afterbegin', AnxietyRegulation.getDifficultyBadge('phishing', current));
 
   // Confidence meter
-  const meterHTML = AnxietyRegulation.getConfidenceMeter('phishing', current);
+  const meterHTML = AnxietyRegulation.getConfidenceMeter('phishing');
   body.insertAdjacentHTML('beforeend', meterHTML);
 
   const choicesDiv = document.getElementById('choices');
@@ -394,7 +394,7 @@ function render() {
     choicesDiv.appendChild(btn);
   });
 
-  // Technique 2: Cognitive Reappraisal — 2-second pause before choices unlock
+  // Technique 2: Cognitive Reappraisal, 2-second pause before choices unlock
   AnxietyRegulation.injectReappraisal(choicesDiv);
 
   document.getElementById('flags-list').innerHTML = sc.flags.map(f =>
@@ -439,13 +439,17 @@ function answer(choice, btn) {
 
   const fb = document.getElementById('feedback');
   fb.className = `feedback-box show ${choice.correct ? 'good' : choice.type === 'neutral' ? 'info' : 'bad'}`;
-  fb.innerHTML = `<div class="feedback-title">${choice.correct ? '✓ Good call' : choice.type === 'neutral' ? '△ Almost — here\'s what to do' : '✗ This one got you — here\'s why'} ${pts > 0 ? `<span style="float:right;font-weight:400;color:var(--amber)">+${pts} pts</span>` : ''}</div>${choice.feedback}`;
+  fb.innerHTML = `<div class="feedback-title">${choice.correct ? '✓ Good call' : choice.type === 'neutral' ? '△ Almost, here\'s what to do' : '✗ This one got you, here\'s why'} ${pts > 0 ? `<span style="float:right;font-weight:400;color:var(--amber)">+${pts} pts</span>` : ''}</div>${choice.feedback}`;
 
   if (!choice.correct) {
     const g = CyberGuard.getGuidance('phishing');
     const gb = document.getElementById('guidance-box');
     gb.style.display = 'block';
-    gb.innerHTML = `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
+    // Three-layer wrong-answer response:
+    // Layer B (amber): blame-removing reassurance, emotional reframe first (Gross, 2002)
+    // Layer C (blue):  module-specific knowledge guidance
+    gb.innerHTML = AnxietyRegulation.getReassuranceMessage() +
+      `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
   } else if (choice.type === 'correct') {
     const g = CyberGuard.getGuidance('confident');
     const gb = document.getElementById('guidance-box');

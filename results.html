@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Results — CyberGuard</title>
+  <title>Your Results | CyberGuard</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .post-gate {
@@ -75,7 +75,7 @@
   <div class="page-header">
     <div class="page-tag">Evaluation</div>
     <h1>Your Training Results</h1>
-    <p>This page shows your performance across all modules and — most importantly — your anxiety change before and after the training.</p>
+    <p>This page shows your performance across all modules and, most importantly, your anxiety change before and after the training.</p>
   </div>
 
   <div class="incomplete-warning" id="incomplete-warning">
@@ -84,12 +84,12 @@
 
   <!-- Post-anxiety gate -->
   <div class="post-gate" id="post-gate">
-    <h3>📊 Final Step — Post-Assessment Rating</h3>
-    <p>You've completed the challenges. Now rate how anxious you feel about interacting with unknown digital content — has it changed?</p>
+    <h3>📊 Final Step: Post-Assessment Rating</h3>
+    <p>You've completed the challenges. Now rate how anxious you feel about interacting with unknown digital content. Has it changed?</p>
     <div class="anxiety-scale" id="post-scale"></div>
     <div class="scale-labels">
-      <span>1 — Not anxious</span>
-      <span>10 — Extremely anxious</span>
+      <span>1: Not anxious</span>
+      <span>10, Extremely anxious</span>
     </div>
     <div class="mt-2" id="post-submit" style="display:none">
       <button class="btn btn-primary" onclick="showResults()">See My Results →</button>
@@ -182,12 +182,12 @@
       <h3>Anxiety Reduction Guidance</h3>
       <div class="guidance-box">
         <h3>💡 What the research says</h3>
-        <p>Research consistently shows that practising with realistic threat scenarios — even just once — reduces the anxiety you feel in real situations. The discomfort you felt during some of these scenarios is completely normal. It means the training is working. The discomfort you may have felt during these scenarios is a normal part of building genuine competence — not a sign of failure.</p>
+        <p>Research consistently shows that practising with realistic threat scenarios, even just once, reduces the anxiety you feel in real situations. The discomfort you felt during some of these scenarios is completely normal. It means the training is working. The discomfort you may have felt during these scenarios is a normal part of building genuine competence, not a sign of failure.</p>
         <div class="tips-list" style="margin-top:1rem">
-          <div class="tip"><span class="tip-icon">✓</span><span>Your score reflects learning, not security expertise — both improve with practice</span></div>
-          <div class="tip"><span class="tip-icon">✓</span><span>Being tricked by a well-crafted scenario is normal — even security professionals are targeted</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>Your score reflects learning, not security expertise, both improve with practice</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>Being tricked by a well-crafted scenario is normal, even security professionals are targeted</span></div>
           <div class="tip"><span class="tip-icon">✓</span><span>The key insight: slow down, check domains, verify independently, and trust your instincts</span></div>
-          <div class="tip"><span class="tip-icon">✓</span><span>Replay any module to improve your score — this is the experiential learning loop</span></div>
+          <div class="tip"><span class="tip-icon">✓</span><span>Replay any module to improve your score, this is the experiential learning loop</span></div>
         </div>
       </div>
     </div>
@@ -203,6 +203,7 @@
 </div>
 
 <script src="app.js"></script>
+<script src="breathing.js"></script>
 <script>
   CyberGuard.refreshNavScore();
   const s = CyberGuard.getState();
@@ -219,11 +220,20 @@
       : '<span class="text-muted">○ Incomplete</span>';
   });
 
-  // If already has post-anxiety, skip gate
-  if (s.postAnxiety !== null) {
-    document.getElementById('post-gate').style.display = 'none';
-    renderResults();
-  }
+  // ── Pre-results breathing exercise ──────────────────────────────
+  // Triggered before the post-assessment gate or results are shown.
+  // Uses the 'results' context which has a score-reframing message.
+  // Grounded in anticipatory anxiety reduction, the most emotionally
+  // loaded moment is seeing your score, not doing the challenges.
+  // Jerath et al. (2006); Ma et al. (2017).
+  BreathingExercise.show('results', () => {
+    // After breathing completes or is skipped, show the normal results flow
+    if (s.postAnxiety !== null) {
+      document.getElementById('post-gate').style.display = 'none';
+      renderResults();
+    }
+    // Otherwise the post-gate is already visible, user rates anxiety then sees results
+  });
 
   // Build post-scale
   const postScale = document.getElementById('post-scale');
@@ -249,7 +259,6 @@
     document.getElementById('results-wrap').style.display = 'block';
     const st = CyberGuard.getState();
 
-    // Anxiety bars
     const pre = st.preAnxiety || 5;
     const post = st.postAnxiety || 5;
     const delta = pre - post;
@@ -273,15 +282,13 @@
       dEl.style.color = 'var(--text-muted)';
     }
 
-    // Interpretation
     let interp = '';
-    if (delta >= 3) interp = `Your anxiety decreased by ${delta} points — a significant improvement consistent with the experiential exposure effect documented in behavioural cybersecurity literature.`;
-    else if (delta > 0) interp = `Your anxiety decreased by ${delta} point(s). Even small reductions are meaningful — anxiety reduction through exposure is cumulative across multiple sessions.`;
-    else if (delta === 0) interp = `Your anxiety rating stayed the same. This is common in a single session — the benefit often becomes apparent after repeated exposure and reflection.`;
-    else interp = `Your anxiety rating increased by ${Math.abs(delta)} point(s). This can happen when challenges surface previously unrecognised risks — awareness is the first stage of confidence-building.`;
+    if (delta >= 3) interp = `Your anxiety decreased by ${delta} points, a significant improvement consistent with the experiential exposure effect documented in behavioural cybersecurity literature.`;
+    else if (delta > 0) interp = `Your anxiety decreased by ${delta} point(s). Even small reductions are meaningful, anxiety reduction through exposure is cumulative across multiple sessions.`;
+    else if (delta === 0) interp = `Your anxiety rating stayed the same. This is common in a single session, the benefit often becomes apparent after repeated exposure and reflection.`;
+    else interp = `Your anxiety rating increased by ${Math.abs(delta)} point(s). This can happen when challenges surface previously unrecognised risks, awareness is the first stage of confidence-building.`;
     document.getElementById('anxiety-interpretation').textContent = interp;
 
-    // Stats
     CyberGuard.animateValue(document.getElementById('stat-score'), 0, st.score, 800);
     document.getElementById('stat-accuracy').textContent = CyberGuard.getAccuracy() + '%';
     document.getElementById('stat-modules').textContent = st.challengesCompleted.length + '/3';

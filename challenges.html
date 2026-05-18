@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Challenges — CyberGuard</title>
+  <title>Challenges, CyberGuard</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .hub-layout {
@@ -75,7 +75,7 @@
   </div>
 
   <div id="no-baseline-warning" class="warning-box">
-    ⚠ You haven't completed your baseline anxiety rating yet. <a href="index.html" style="color:var(--red)">Return to home</a> to set it first — this is required for your evaluation data.
+    ⚠ You haven't completed your baseline anxiety rating yet. <a href="index.html" style="color:var(--red)">Return to home</a> to set it first, this is required for your evaluation data.
   </div>
 
   <div class="hub-layout">
@@ -125,7 +125,7 @@
       <!-- Guidance teaser -->
       <div class="guidance-box">
         <h3>💡 Anxiety Reduction Module</h3>
-        <p>After each challenge you'll receive targeted guidance addressing the specific anxiety patterns that scenario was designed to trigger. This is not just about learning facts — it's about retraining your emotional response to cyber threats.</p>
+        <p>After each challenge you'll receive targeted guidance addressing the specific anxiety patterns that scenario was designed to trigger. This is not just about learning facts, it's about retraining your emotional response to cyber threats.</p>
       </div>
     </div>
 
@@ -193,13 +193,13 @@
 
   // ── TECHNIQUE 1: Box Breathing ──────────────────────────────────
   // Trigger on first visit to challenges page this session.
-  // Grounded in Jerath et al. (2006) — slow paced breathing
+  // Grounded in Jerath et al. (2006), slow paced breathing
   // activates the parasympathetic nervous system, reducing
   // physiological arousal before threat exposure begins.
   // Only shown if user has set their pre-anxiety baseline.
   if (s.preAnxiety !== null) {
-    BreathingExercise.show(() => {
-      // Breathing complete — challenges are now accessible
+    BreathingExercise.show('challenges', () => {
+      // Breathing complete, challenges are now accessible
       console.log('CyberGuard: breathing exercise complete');
     });
   }

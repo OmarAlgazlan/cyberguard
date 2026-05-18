@@ -1,6 +1,6 @@
-// CyberGuard — Shared App State & Utilities
+// CyberGuard, Shared App State & Utilities
 // Gamified Cybersecurity Anxiety Reduction Platform
-// Computer Systems Engineering Final Year Project — QMUL 2025/26
+// Computer Systems Engineering Final Year Project, QMUL 2025/26
 
 const CyberGuard = (() => {
 
@@ -46,7 +46,11 @@ const CyberGuard = (() => {
   }
 
   function resetState() {
+    // Clear all CyberGuard session keys including breathing exercise flags
+    // so the breathing screen appears correctly on next session start
     sessionStorage.removeItem(STATE_KEY);
+    sessionStorage.removeItem('cg_breathing_challenges_done');
+    sessionStorage.removeItem('cg_breathing_results_done');
     return { ...defaultState, sessionStart: Date.now() };
   }
 
@@ -104,28 +108,28 @@ const CyberGuard = (() => {
   const GUIDANCE = {
     breathe: {
       icon: '💙',
-      title: "Take a breath — you're completely safe here",
-      body: "Nothing you do in this training can cause real harm. There are no real accounts, no real money, and no real data at risk. Every mistake is just a learning moment. Take your time with each question — slow and careful beats fast and wrong every time.",
+      title: "Take a breath, you're completely safe here",
+      body: "Nothing you do in this training can cause real harm. There are no real accounts, no real money, and no real data at risk. Every mistake is just a learning moment. Take your time with each question, slow and careful beats fast and wrong every time.",
     },
     phishing: {
       icon: '💙',
-      title: "Don't worry — spotting fake emails takes practice",
-      body: "Phishing emails are designed by professionals to trick people. Even cybersecurity experts get fooled sometimes. The key habit: always check the actual email address (not just the sender name shown), and never click a link when you're unsure — go directly to the website yourself instead. The more you practise, the more natural this becomes.",
+      title: "Don't worry, spotting fake emails takes practice",
+      body: "Phishing emails are designed by professionals to trick people. Even cybersecurity experts get fooled sometimes. The key habit: always check the actual email address (not just the sender name shown), and never click a link when you're unsure, go directly to the website yourself instead. The more you practise, the more natural this becomes.",
     },
     password: {
       icon: '💙',
       title: "Passwords don't have to be stressful",
-      body: "Most people find passwords overwhelming — you're not alone in that. The good news: you don't need to memorise complex passwords. A password manager app stores them all safely for you. The one golden rule is simple: never use the same password on more than one account. If one gets stolen, the others stay safe.",
+      body: "Most people find passwords overwhelming, you're not alone in that. The good news: you don't need to memorise complex passwords. A password manager app stores them all safely for you. The one golden rule is simple: never use the same password on more than one account. If one gets stolen, the others stay safe.",
     },
     social: {
       icon: '💙',
       title: "Getting tricked doesn't mean you're not smart",
-      body: "Social engineering works by targeting emotions — urgency, fear, wanting to help, trusting authority. These are completely normal human responses. Attackers spend a long time crafting these traps specifically to bypass careful thinking. The only defence is one simple habit: when something unexpected asks you to act fast, slow down instead. Verify through a separate channel — call back on a number you look up yourself.",
+      body: "Social engineering works by targeting emotions, urgency, fear, wanting to help, trusting authority. These are completely normal human responses. Attackers spend a long time crafting these traps specifically to bypass careful thinking. The only defence is one simple habit: when something unexpected asks you to act fast, slow down instead. Verify through a separate channel, call back on a number you look up yourself.",
     },
     confident: {
       icon: '💚',
       title: "You're building real confidence",
-      body: "Practising with simulated threats — exactly what you're doing right now — is proven to reduce real anxiety over time. Each scenario you complete makes the next one feel less scary. You're not just learning facts, you're changing how your brain responds to these situations. Keep going.",
+      body: "Practising with simulated threats, exactly what you're doing right now, is proven to reduce real anxiety over time. Each scenario you complete makes the next one feel less scary. You're not just learning facts, you're changing how your brain responds to these situations. Keep going.",
     },
   };
 

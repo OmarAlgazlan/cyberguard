@@ -1,39 +1,64 @@
 // ═══════════════════════════════════════════════════════════
-// CyberGuard — Box Breathing Module
+// CyberGuard, Box Breathing Module
 // Physiological anxiety regulation via controlled breathing
-// Evidence base: Jerath et al. (2006); US Navy SEAL tactical
-// breathing protocol (4-4-4-4 pattern)
+// Evidence: Jerath et al. (2006); Ma et al. (2017)
+// 4-4-4-4 pattern: inhale, hold, exhale, hold
+// Used in two contexts:
+//   1. Before challenges, reduces baseline arousal
+//   2. Before results, reduces anticipatory score anxiety
 // ═══════════════════════════════════════════════════════════
 
 const BreathingExercise = (() => {
 
   const PHASES = [
     { label: 'Breathe In',  seconds: 4, instruction: 'Inhale slowly through your nose' },
-    { label: 'Hold',        seconds: 4, instruction: 'Hold gently — stay relaxed'       },
+    { label: 'Hold',        seconds: 4, instruction: 'Hold gently. Stay relaxed.'       },
     { label: 'Breathe Out', seconds: 4, instruction: 'Exhale slowly through your mouth' },
-    { label: 'Hold',        seconds: 4, instruction: 'Rest — let your body settle'       },
+    { label: 'Hold',        seconds: 4, instruction: 'Rest and let your body settle'       },
   ];
 
-  const STATE_KEY = 'cg_breathing_done';
+  const CHALLENGES_KEY = 'cg_breathing_challenges_done';
+  const RESULTS_KEY    = 'cg_breathing_results_done';
 
-  function alreadyDone() {
-    try { return sessionStorage.getItem(STATE_KEY) === '1'; } catch { return false; }
+  // Context-specific intro content
+  const CONTEXTS = {
+    challenges: {
+      title:    'Before you begin',
+      subtitle: 'Take 16 seconds to settle your mind. Research shows one breathing cycle measurably reduces anxiety before a stressful task.',
+      complete_title: '💚 You\'re ready',
+      complete_body:  'Your breathing has slowed and your focus is sharper. The challenges ahead are a safe space. Nothing here can cause real harm.',
+      btn_label: 'Start the Challenges →',
+    },
+    results: {
+      title:    'Before you see your results',
+      subtitle: 'Your score does not measure your intelligence. It measures where your awareness is today, and awareness grows with every single session.',
+      complete_title: '💚 One more thing to remember',
+      complete_body:  'Every wrong answer in there was a learning moment, not a failure. Professional security teams get caught by these same attacks. What you built today is instinct, and instinct compounds.',
+      btn_label: 'See My Results →',
+    },
+  };
+
+  function storageKey(context) {
+    return context === 'results' ? RESULTS_KEY : CHALLENGES_KEY;
   }
 
-  function markDone() {
-    try { sessionStorage.setItem(STATE_KEY, '1'); } catch {}
+  function alreadyDone(context) {
+    try { return sessionStorage.getItem(storageKey(context)) === '1'; } catch { return false; }
   }
 
-  function buildOverlay() {
+  function markDone(context) {
+    try { sessionStorage.setItem(storageKey(context), '1'); } catch {}
+  }
+
+  function buildOverlay(context) {
+    const ctx = CONTEXTS[context] || CONTEXTS.challenges;
     const overlay = document.createElement('div');
     overlay.className = 'breathing-overlay';
     overlay.id = 'breathing-overlay';
 
     overlay.innerHTML = `
-      <div class="breath-title">Before you begin</div>
-      <div class="breath-subtitle" id="breath-subtitle">
-        Take one minute to calm your mind. This exercise has been shown to reduce anxiety and improve decision-making.
-      </div>
+      <div class="breath-title">${ctx.title}</div>
+      <div class="breath-subtitle" id="breath-subtitle">${ctx.subtitle}</div>
 
       <div class="box-container" id="box-container">
         <svg class="box-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +67,7 @@ const BreathingExercise = (() => {
         <div class="box-glow" id="box-glow"></div>
         <div class="breath-instruction">
           <div class="breath-word" id="breath-word">Ready?</div>
-          <div class="breath-count" id="breath-count">—</div>
+          <div class="breath-count" id="breath-count">&#x2022;</div>
           <div class="breath-phase-label" id="breath-phase-label">Press start</div>
         </div>
       </div>
@@ -56,60 +81,51 @@ const BreathingExercise = (() => {
           Start Breathing Exercise
         </button>
         <div style="margin-top:0.75rem">
-          <button class="breath-skip" onclick="BreathingExercise.skip()">Skip — I'm already calm</button>
+          <button class="breath-skip" onclick="BreathingExercise.skip()">Skip, I am already calm</button>
         </div>
       </div>
 
       <div id="breath-complete" style="display:none">
         <div class="breath-complete-msg">
-          <h3>💚 Well done</h3>
-          <p>Your breathing rate has slowed and your focus is sharper.<br>You're ready to begin.</p>
-          <button class="btn btn-primary" onclick="BreathingExercise.dismiss()">Start the Challenges →</button>
+          <h3>${ctx.complete_title}</h3>
+          <p>${ctx.complete_body}</p>
+          <button class="btn btn-primary" onclick="BreathingExercise.dismiss()">${ctx.btn_label}</button>
         </div>
       </div>
     `;
-
     return overlay;
   }
 
-  function show(onComplete) {
-    if (alreadyDone()) { onComplete(); return; }
-
-    const overlay = buildOverlay();
+  function show(context, onComplete) {
+    if (alreadyDone(context)) { if (onComplete) onComplete(); return; }
+    const overlay = buildOverlay(context);
     document.body.appendChild(overlay);
+    BreathingExercise._context   = context;
     BreathingExercise._onComplete = onComplete;
   }
 
   function start() {
-    document.getElementById('breath-start-btn').parentElement.style.display = 'none';
+    document.getElementById('breath-action').style.display = 'none';
     document.getElementById('breath-subtitle').textContent =
-      'Follow the guide below. Each side of the square = 4 seconds.';
+      'Follow the guide. Each side of the square = 4 seconds.';
 
-    const path = document.getElementById('box-path');
-    path.classList.add('animate');
+    document.getElementById('box-path').classList.add('animate');
 
-    let phaseIndex = 0;
+    let phaseIndex  = 0;
     let secondsLeft = PHASES[0].seconds;
-
     updateDisplay(phaseIndex, secondsLeft);
 
     const interval = setInterval(() => {
       secondsLeft--;
-
       if (secondsLeft <= 0) {
-        // Mark this phase done
         const dot = document.getElementById(`dot-${phaseIndex}`);
-        if (dot) dot.classList.remove('active');
-        if (dot) dot.classList.add('done');
-
+        if (dot) { dot.classList.remove('active'); dot.classList.add('done'); }
         phaseIndex++;
-
         if (phaseIndex >= PHASES.length) {
           clearInterval(interval);
           showComplete();
           return;
         }
-
         secondsLeft = PHASES[phaseIndex].seconds;
         updateDisplay(phaseIndex, secondsLeft);
       } else {
@@ -120,37 +136,33 @@ const BreathingExercise = (() => {
 
   function updateDisplay(phaseIndex, secondsLeft) {
     const phase = PHASES[phaseIndex];
-    const wordEl = document.getElementById('breath-word');
+    const wordEl  = document.getElementById('breath-word');
     const countEl = document.getElementById('breath-count');
     const labelEl = document.getElementById('breath-phase-label');
-
-    if (wordEl) wordEl.textContent = phase.label;
+    if (wordEl)  wordEl.textContent  = phase.label;
     if (countEl) countEl.textContent = secondsLeft;
     if (labelEl) labelEl.textContent = phase.instruction;
-
-    // Update dots
     PHASES.forEach((_, i) => {
       const dot = document.getElementById(`dot-${i}`);
-      if (!dot) return;
-      if (i === phaseIndex) dot.classList.add('active');
+      if (dot && i === phaseIndex) dot.classList.add('active');
     });
   }
 
   function showComplete() {
-    const word = document.getElementById('breath-word');
-    const count = document.getElementById('breath-count');
-    const label = document.getElementById('breath-phase-label');
-    if (word) word.textContent = 'Done';
-    if (count) count.textContent = '✓';
-    if (label) label.textContent = '';
-
+    const wordEl  = document.getElementById('breath-word');
+    const countEl = document.getElementById('breath-count');
+    const labelEl = document.getElementById('breath-phase-label');
+    if (wordEl)  wordEl.textContent  = 'Done';
+    if (countEl) countEl.textContent = '✓';
+    if (labelEl) labelEl.textContent = '';
     setTimeout(() => {
-      document.getElementById('breath-complete').style.display = 'block';
+      const comp = document.getElementById('breath-complete');
+      if (comp) comp.style.display = 'block';
     }, 500);
   }
 
-  function dismiss() {
-    markDone();
+  function _dismiss() {
+    markDone(BreathingExercise._context || 'challenges');
     const overlay = document.getElementById('breathing-overlay');
     if (overlay) {
       overlay.style.opacity = '0';
@@ -160,16 +172,8 @@ const BreathingExercise = (() => {
     if (BreathingExercise._onComplete) BreathingExercise._onComplete();
   }
 
-  function skip() {
-    markDone();
-    const overlay = document.getElementById('breathing-overlay');
-    if (overlay) {
-      overlay.style.opacity = '0';
-      overlay.style.transition = 'opacity 0.3s';
-      setTimeout(() => overlay.remove(), 300);
-    }
-    if (BreathingExercise._onComplete) BreathingExercise._onComplete();
-  }
+  function dismiss() { _dismiss(); }
+  function skip()    { _dismiss(); }
 
-  return { show, start, dismiss, skip, _onComplete: null };
+  return { show, start, dismiss, skip, _context: 'challenges', _onComplete: null };
 })();

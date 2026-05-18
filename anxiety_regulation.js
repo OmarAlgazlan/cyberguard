@@ -1,33 +1,30 @@
 // ═══════════════════════════════════════════════════════════════════
-// CyberGuard — Anxiety Regulation Techniques 2 & 3
+// CyberGuard, Anxiety Regulation Techniques 2, 3 & 4
 //
-// Technique 2: Cognitive Reappraisal
-//   Evidence: Gross (2002) — reappraising a situation as less
-//   threatening before responding reduces emotional reactivity.
-//   Aldao et al. (2010) — cognitive reappraisal is the most
-//   adaptive emotion regulation strategy across clinical contexts.
-//   Implementation: 2-second mandatory pause + reappraisal prompt
-//   before answer choices become interactive.
+// Technique 2: Cognitive Reappraisal (before each scenario choice)
+//   Evidence: Gross (2002); Aldao, Nolen-Hoeksema & Schweizer (2010)
+//   Implementation: 2-second pause + rotating reappraisal prompt
 //
 // Technique 3: Confidence Scaffolding via Progressive Difficulty
-//   Evidence: Bandura (1977) self-efficacy theory — early success
-//   experiences build confidence and reduce anxiety for harder tasks.
-//   Csikszentmihalyi (1990) flow theory — optimal challenge level
-//   matches skill, reducing both boredom and anxiety.
-//   Implementation: difficulty badges + streak messages +
-//   confidence meter that fills as correct answers accumulate.
+//   Evidence: Bandura (1977); Csikszentmihalyi (1990)
+//   Implementation: difficulty badges + confidence meter + streaks
+//
+// Technique 4: Three-Layer Wrong-Answer Response
+//   Layer A, Red feedback: what happened and why (cognitive)
+//   Layer B, Amber reassurance: blame removal (emotional reframe)
+//   Layer C, Blue guidance: specific knowledge to take away
+//   Evidence: Gross (2002), emotional reframe must precede
+//   cognitive content to be effective. Johnston & Warkentin (2010)
+//  , fear-based messaging increases avoidance, not protection.
 // ═══════════════════════════════════════════════════════════════════
 
 const AnxietyRegulation = (() => {
 
   // ── Technique 2: Cognitive Reappraisal ──────────────────────────
-  // Reappraisal messages — injected before choices become active.
-  // Each is scenario-context-aware where possible, but all share
-  // the core reframe: this is safe, you have time, you cannot fail.
   const REAPPRAISAL_MESSAGES = [
     {
       icon: '🧠',
-      text: '<strong>Before you choose:</strong> You\'re in a completely safe training environment. Nothing you click here affects any real account, money, or data. Take a moment — there\'s no timer.'
+      text: '<strong>Before you choose:</strong> You\'re in a completely safe training environment. Nothing you click here affects any real account, money, or data. Take a moment, there\'s no timer.'
     },
     {
       icon: '💙',
@@ -35,7 +32,7 @@ const AnxietyRegulation = (() => {
     },
     {
       icon: '🔍',
-      text: '<strong>Pause and look:</strong> What\'s the worst that could realistically happen from choosing wrong here? Nothing — it\'s a simulation. That calm is the skill you\'re building.'
+      text: '<strong>Pause and look:</strong> What\'s the worst that could realistically happen from choosing wrong here? Nothing, it\'s a simulation. That calm is the skill you\'re building.'
     },
     {
       icon: '✋',
@@ -49,12 +46,10 @@ const AnxietyRegulation = (() => {
 
   let reappraisalIndex = 0;
 
-  // Inject reappraisal banner above choices and lock them for 2 seconds
   function injectReappraisal(choicesContainer) {
     const msg = REAPPRAISAL_MESSAGES[reappraisalIndex % REAPPRAISAL_MESSAGES.length];
     reappraisalIndex++;
 
-    // Build the banner
     const banner = document.createElement('div');
     banner.className = 'reappraisal-banner';
     banner.innerHTML = `
@@ -62,19 +57,14 @@ const AnxietyRegulation = (() => {
       <div class="reappraisal-text">${msg.text}</div>
     `;
 
-    // Build the unlock timer
     const timer = document.createElement('div');
     timer.className = 'unlock-timer';
     timer.textContent = 'Choices unlock in 2 seconds...';
 
-    // Insert before choices
     choicesContainer.parentNode.insertBefore(banner, choicesContainer);
     choicesContainer.parentNode.insertBefore(timer, choicesContainer);
-
-    // Lock choices
     choicesContainer.classList.add('choices-locked');
 
-    // Unlock after 2 seconds
     let count = 2;
     const interval = setInterval(() => {
       count--;
@@ -82,7 +72,7 @@ const AnxietyRegulation = (() => {
         clearInterval(interval);
         choicesContainer.classList.remove('choices-locked');
         choicesContainer.classList.add('unlocked');
-        timer.textContent = ''; // Clear timer text
+        timer.textContent = '';
       } else {
         timer.textContent = `Choices unlock in ${count} second${count !== 1 ? 's' : ''}...`;
       }
@@ -90,9 +80,6 @@ const AnxietyRegulation = (() => {
   }
 
   // ── Technique 3: Confidence Scaffolding ─────────────────────────
-
-  // Difficulty levels for each module's scenarios (0-indexed)
-  // Ordered easy → hard so first scenario always builds confidence
   const DIFFICULTY = {
     phishing: ['easy', 'easy', 'medium', 'medium', 'hard'],
     password: ['easy', 'medium', 'medium', 'hard'],
@@ -100,59 +87,49 @@ const AnxietyRegulation = (() => {
   };
 
   const DIFFICULTY_LABELS = {
-    easy:   { label: '● Beginner',     emoji: '🟢' },
+    easy:   { label: '● Beginner',      emoji: '🟢' },
     medium: { label: '●● Intermediate', emoji: '🟡' },
     hard:   { label: '●●● Advanced',   emoji: '🔴' },
   };
 
-  // Streak messages — shown after consecutive correct answers
   const STREAK_MESSAGES = [
-    null, // 0 streak — nothing
-    null, // 1 correct — nothing yet
-    { emoji: '🔥', text: '2 in a row — you\'re getting it.' },
-    { emoji: '⚡', text: '3 correct — your pattern recognition is sharp.' },
-    { emoji: '🛡️', text: '4 correct — you\'re thinking like a defender.' },
-    { emoji: '🏆', text: '5 in a row — outstanding awareness.' },
+    null,
+    null,
+    { emoji: '🔥', text: '2 in a row, you\'re getting it.' },
+    { emoji: '⚡', text: '3 correct, your pattern recognition is sharp.' },
+    { emoji: '🛡️', text: '4 correct, you\'re thinking like a defender.' },
+    { emoji: '🏆', text: '5 in a row, outstanding awareness.' },
   ];
 
-  let currentStreak = 0;
+  let currentStreak        = 0;
   let totalCorrectInModule = 0;
 
   function resetStreak() {
-    currentStreak = 0;
+    currentStreak        = 0;
     totalCorrectInModule = 0;
-    reappraisalIndex = 0;
+    reappraisalIndex     = 0;
   }
 
   function recordResult(correct) {
-    if (correct) {
-      currentStreak++;
-      totalCorrectInModule++;
-    } else {
-      currentStreak = 0;
-    }
+    if (correct) { currentStreak++; totalCorrectInModule++; }
+    else          { currentStreak = 0; }
   }
 
-  // Build difficulty badge HTML
   function getDifficultyBadge(moduleId, scenarioIndex) {
-    const difficulties = DIFFICULTY[moduleId] || [];
-    const level = difficulties[scenarioIndex] || 'medium';
-    const info = DIFFICULTY_LABELS[level];
+    const level = (DIFFICULTY[moduleId] || [])[scenarioIndex] || 'medium';
+    const info  = DIFFICULTY_LABELS[level];
     return `<div class="difficulty-badge ${level}">${info.emoji} ${info.label}</div>`;
   }
 
-  // Build confidence meter HTML
-  function getConfidenceMeter(moduleId, scenarioIndex) {
+  function getConfidenceMeter(moduleId) {
     const totalScenarios = (DIFFICULTY[moduleId] || []).length;
     const pct = totalScenarios > 0
       ? Math.min(100, Math.round((totalCorrectInModule / totalScenarios) * 100))
       : 0;
-
     return `
       <div class="confidence-meter-wrap">
         <div class="confidence-meter-label">
-          <span>Confidence Level</span>
-          <span>${pct}%</span>
+          <span>Confidence Level</span><span>${pct}%</span>
         </div>
         <div class="confidence-meter-bar">
           <div class="confidence-meter-fill" style="width:${pct}%"></div>
@@ -160,24 +137,64 @@ const AnxietyRegulation = (() => {
       </div>`;
   }
 
-  // Show streak banner if applicable
   function showStreakBanner() {
     const existing = document.getElementById('streak-banner');
     if (existing) existing.remove();
-
     const msg = STREAK_MESSAGES[Math.min(currentStreak, STREAK_MESSAGES.length - 1)];
     if (!msg) return;
-
     const banner = document.createElement('div');
-    banner.id = 'streak-banner';
+    banner.id        = 'streak-banner';
     banner.className = 'streak-banner show';
     banner.innerHTML = `<span>${msg.emoji}</span><span>${msg.text}</span>`;
-
-    // Insert after the feedback box so it persists between scenarios
     const feedback = document.getElementById('feedback');
     if (feedback && feedback.parentNode) {
       feedback.parentNode.insertBefore(banner, feedback.nextSibling);
     }
+  }
+
+  // ── Technique 4: Three-Layer Wrong-Answer Reassurance ───────────
+  // Rotating blame-removing messages shown between the red feedback
+  // and the blue guidance box. Addresses shame/self-blame which is
+  // the primary driver of avoidance behaviour in cybersecurity
+  // contexts (Bada, Sasse & Nurse, 2019).
+  // Placed BEFORE the technical guidance so emotional state is
+  // addressed before cognitive content is delivered (Gross, 2002).
+
+  const REASSURANCE_MESSAGES = [
+    {
+      text: 'These attacks are engineered by professionals specifically to fool people. Getting caught by one in a simulation is exactly how you build the instinct to avoid it in real life.',
+    },
+    {
+      text: 'Even IT security professionals fall for well-crafted attacks. The difference between them and everyone else is not immunity, it\'s recognising the pattern afterwards. You just did that.',
+    },
+    {
+      text: 'That scenario was deliberately designed to create urgency and bypass careful thinking. Now that you\'ve seen the tactic, your brain will flag it faster next time.',
+    },
+    {
+      text: 'A wrong answer here is more valuable than a right one you guessed. You\'ve just identified a real gap in your awareness, and closing that gap is the entire point of this training.',
+    },
+    {
+      text: 'The anxiety you felt before choosing was real, and intentional. Attackers engineer that feeling. Recognising that the feeling is a manipulation tactic is a defence in itself.',
+    },
+    {
+      text: 'In a real situation, you would have had seconds. Here, you have unlimited time, full explanations, and zero consequences. That is exactly the right environment to build confidence.',
+    },
+    {
+      text: 'No one learns cybersecurity by getting everything right. You learn by seeing how attacks work from the inside. You\'re doing that right now.',
+    },
+  ];
+
+  let reassuranceIndex = 0;
+
+  // Returns HTML for the amber reassurance layer
+  function getReassuranceMessage() {
+    const msg = REASSURANCE_MESSAGES[reassuranceIndex % REASSURANCE_MESSAGES.length];
+    reassuranceIndex++;
+    return `
+      <div class="reassurance-box">
+        <div class="reassurance-icon">💛</div>
+        <div class="reassurance-text">${msg.text}</div>
+      </div>`;
   }
 
   return {
@@ -187,7 +204,8 @@ const AnxietyRegulation = (() => {
     showStreakBanner,
     recordResult,
     resetStreak,
-    get currentStreak() { return currentStreak; },
-    get totalCorrect() { return totalCorrectInModule; },
+    getReassuranceMessage,
+    get currentStreak()  { return currentStreak; },
+    get totalCorrect()   { return totalCorrectInModule; },
   };
 })();

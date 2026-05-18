@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Engineering — CyberGuard</title>
+  <title>Social Engineering, CyberGuard</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .module-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; max-width: 640px; margin: 0 auto 2rem; text-align: center; }
@@ -59,9 +59,9 @@
 
 <div class="page">
   <div class="page-header">
-    <div class="page-tag">Module 3 — Scam Calls and Messages</div>
+    <div class="page-tag">Module 3, Scam Calls and Messages</div>
     <h1>Social Engineering</h1>
-    <p>Learn to spot when someone is trying to manipulate you — online, on the phone, or in person.</p>
+    <p>Learn to spot when someone is trying to manipulate you, online, on the phone, or in person.</p>
   </div>
 
   <!-- Intro screen -->
@@ -70,11 +70,11 @@
     <h2>What is social engineering?</h2>
     <div class="plain-explainer">
       <h4>🗣️ Plain English explanation</h4>
-      <p><strong>Social engineering</strong> means tricking a person rather than hacking a computer. Instead of breaking into a system technically, attackers manipulate your emotions — fear, urgency, trust, helpfulness — to get you to do what they want. Scam phone calls, fake messages from "your bank", emails pretending to be your boss — these are all social engineering.</p>
+      <p><strong>Social engineering</strong> means tricking a person rather than hacking a computer. Instead of breaking into a system technically, attackers manipulate your emotions, fear, urgency, trust, helpfulness, to get you to do what they want. Scam phone calls, fake messages from "your bank", emails pretending to be your boss, these are all social engineering.</p>
     </div>
     <div class="plain-explainer">
       <h4>😰 Why it makes us anxious</h4>
-      <p>These attacks work by putting you under pressure. "Act now or your account closes." "It's urgent." "I'm from the fraud team." That panic is deliberate. The moment you feel urgency from an unexpected contact, that's your signal to slow down — not speed up.</p>
+      <p>These attacks work by putting you under pressure. "Act now or your account closes." "It's urgent." "I'm from the fraud team." That panic is deliberate. The moment you feel urgency from an unexpected contact, that's your signal to slow down, not speed up.</p>
     </div>
     <div class="plain-explainer">
       <h4>🛡️ The one rule that stops almost all of them</h4>
@@ -84,7 +84,7 @@
       <h4>🎯 Your task in this module</h4>
       <p>You'll face 5 real scenarios: a scam phone call, a fake job offer, a workplace situation, a "Hi Mum" money scam, and a found USB drive. For each one, identify what's happening and choose the safest response.</p>
     </div>
-    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready — start the scenarios →</button>
+    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready, start the scenarios →</button>
   </div>
 
   <div class="progress-bar-wrap" id="progress-wrap" style="display:none">
@@ -130,12 +130,12 @@
     <p class="text-muted" style="margin-bottom:2rem;">You identified <span id="final-correct" class="text-green"></span> manipulation attempts correctly out of 5.</p>
     <div class="guidance-box" style="text-align:left;max-width:580px;margin:0 auto 2rem;">
       <h3>💡 This is not about being gullible</h3>
-      <p>Social engineering is designed to bypass your careful thinking by targeting your emotions. Urgency, fear, helpfulness, and love for family — these are normal human traits. Being manipulated doesn't mean you're not smart. It means you're human. The defence is one habit: when something unexpected asks you to act fast, pause and verify independently first.</p>
+      <p>Social engineering is designed to bypass your careful thinking by targeting your emotions. Urgency, fear, helpfulness, and love for family, these are normal human traits. Being manipulated doesn't mean you're not smart. It means you're human. The defence is one habit: when something unexpected asks you to act fast, pause and verify independently first.</p>
       <div class="tips-list">
-        <div class="tip"><span class="tip-icon">✓</span><span>Always verify identity through a separate channel — call back on a number you look up yourself</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Always verify identity through a separate channel, call back on a number you look up yourself</span></div>
         <div class="tip"><span class="tip-icon">✓</span><span>Urgency from an unexpected contact is a red flag, not a reason to act faster</span></div>
-        <div class="tip"><span class="tip-icon">✓</span><span>It's always okay to say "let me verify this first" — anyone legitimate will understand</span></div>
-        <div class="tip"><span class="tip-icon">✓</span><span>Never plug in a USB drive you found — hand it to IT or security instead</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>It's always okay to say "let me verify this first", anyone legitimate will understand</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Never plug in a USB drive you found, hand it to IT or security instead</span></div>
       </div>
     </div>
     <a href="results.html" class="btn btn-primary">View Your Results →</a>
@@ -149,10 +149,10 @@
 const scenarios = [
   {
     id: 'se1',
-    toolbar: 'Incoming Call — Unknown Number',
+    toolbar: 'Incoming Call, Unknown Number',
     tactic: 'Vishing (Scam Phone Call) + Fake Authority + Urgency',
     render: () => `
-      <div class="mixed-indicator">Scenario 1 of 5 — Scam Phone Call</div>
+      <div class="mixed-indicator">Scenario 1 of 5, Scam Phone Call</div>
       <div class="tactic-tag">What's happening: Fake bank fraud call (called "vishing")</div>
       <div class="phone-mock">
         <div class="phone-header">
@@ -165,24 +165,24 @@ const scenarios = [
             <div class="ct-line"><span class="ct-speaker ct-you">You:</span><span class="ct-text">"Oh, that sounds serious..."</span></div>
             <div class="ct-line"><span class="ct-speaker ct-caller">Caller:</span><span class="ct-text">"It is. I need your full card number, expiry date, and the three-digit security code from the back of your card. We need to act in the next 5 minutes."</span></div>
           </div>
-          <div class="tactic-reveal"><strong>What's being used against you:</strong> Fake authority (bank fraud team), urgency (5 minute window), a made-up scenario (suspicious transaction). Your real bank already has your card number — they would never ask you to read it back.</div>
+          <div class="tactic-reveal"><strong>What's being used against you:</strong> Fake authority (bank fraud team), urgency (5 minute window), a made-up scenario (suspicious transaction). Your real bank already has your card number, they would never ask you to read it back.</div>
         </div>
       </div>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 What do you do?</p>
     `,
     choices: [
-      { text: 'Give them the card details — the transaction sounds real', correct: false, type: 'wrong', feedback: 'This is a scam call. Your real bank NEVER asks for your full card number, expiry, and security code over the phone — they already have this information. The number can be faked to look like it\'s coming from Barclays. If this happens, hang up and call the number printed on the back of your card.' },
-      { text: 'Ask them to confirm details they should already have, then hang up and call the bank directly', correct: true, type: 'correct', feedback: 'Good response. Asking them to confirm something (like part of your postcode) tests whether they are who they claim to be. But the safest response is always to hang up and call the bank yourself using the number on the back of your card — never trust an inbound call.' },
-      { text: 'Stay on the line but refuse to give card details', correct: false, type: 'neutral', feedback: 'Refusing to give details is right — but staying on the line lets the attacker keep working on you. Hang up. Then call your bank on the official number to check if there really was a transaction.' },
+      { text: 'Give them the card details, the transaction sounds real', correct: false, type: 'wrong', feedback: 'This is a scam call. Your real bank NEVER asks for your full card number, expiry, and security code over the phone, they already have this information. The number can be faked to look like it\'s coming from Barclays. If this happens, hang up and call the number printed on the back of your card.' },
+      { text: 'Ask them to confirm details they should already have, then hang up and call the bank directly', correct: true, type: 'correct', feedback: 'Good response. Asking them to confirm something (like part of your postcode) tests whether they are who they claim to be. But the safest response is always to hang up and call the bank yourself using the number on the back of your card, never trust an inbound call.' },
+      { text: 'Stay on the line but refuse to give card details', correct: false, type: 'neutral', feedback: 'Refusing to give details is right, but staying on the line lets the attacker keep working on you. Hang up. Then call your bank on the official number to check if there really was a transaction.' },
     ],
     points: 25,
   },
   {
     id: 'se2',
-    toolbar: 'LinkedIn — Direct Messages',
+    toolbar: 'LinkedIn, Direct Messages',
     tactic: 'Fake Job Offer + Personalised Targeting',
     render: () => `
-      <div class="mixed-indicator">Scenario 2 of 5 — Fake Job Offer</div>
+      <div class="mixed-indicator">Scenario 2 of 5, Fake Job Offer</div>
       <div class="tactic-tag">What's happening: Fake recruiter using your real profile to target you</div>
       <div class="linkedin-mock">
         <div class="li-header">linkedin.com · Direct Messages</div>
@@ -191,7 +191,7 @@ const scenarios = [
             <div class="li-avatar">👩</div>
             <div>
               <div class="li-name">Sarah Chen</div>
-              <div class="li-title">Senior Talent Acquisition — Google</div>
+              <div class="li-title">Senior Talent Acquisition, Google</div>
               <div class="li-company">Google · 500+ connections</div>
             </div>
           </div>
@@ -200,12 +200,12 @@ const scenarios = [
           </div>
         </div>
       </div>
-      <div class="tactic-reveal" style="margin-top:0.5rem"><strong>What to check:</strong> The link says google-careers-apply.com — not google.com. Real Google job applications go through google.com/careers only. The flattery about your specific background is designed to lower your guard.</div>
+      <div class="tactic-reveal" style="margin-top:0.5rem"><strong>What to check:</strong> The link says google-careers-apply.com, not google.com. Real Google job applications go through google.com/careers only. The flattery about your specific background is designed to lower your guard.</div>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 The profile has 500+ connections and looks professional. What do you do?</p>
     `,
     choices: [
-      { text: 'Fill in the form — it\'s Google and they approached me', correct: false, type: 'wrong', feedback: 'The link "google-careers-apply.com" is not Google\'s real website. Attackers build convincing profiles and use your public information to personalise the approach. The compliments about your specific background are designed to make you feel special and lower your guard. Real Google recruiting goes through google.com/careers.' },
-      { text: 'Notice the link isn\'t google.com — decline and report the profile as fake', correct: true, type: 'correct', feedback: 'Correct. The URL is the giveaway. 500 connections can be built gradually over time by a fake account. Job opportunities that ask you to use a non-official link are almost always scams. Report the profile to LinkedIn.' },
+      { text: 'Fill in the form, it\'s Google and they approached me', correct: false, type: 'wrong', feedback: 'The link "google-careers-apply.com" is not Google\'s real website. Attackers build convincing profiles and use your public information to personalise the approach. The compliments about your specific background are designed to make you feel special and lower your guard. Real Google recruiting goes through google.com/careers.' },
+      { text: 'Notice the link isn\'t google.com, decline and report the profile as fake', correct: true, type: 'correct', feedback: 'Correct. The URL is the giveaway. 500 connections can be built gradually over time by a fake account. Job opportunities that ask you to use a non-official link are almost always scams. Report the profile to LinkedIn.' },
       { text: 'Message back asking for more details first', correct: false, type: 'neutral', feedback: 'Engaging lets the attacker gather more information about you and refine their approach. The suspicious link is enough to know this isn\'t legitimate. Verify by searching for "Sarah Chen Google recruiter" independently on LinkedIn\'s main search.' },
       { text: 'Search for the recruiter independently on LinkedIn and contact Google\'s official careers page', correct: true, type: 'correct', feedback: 'Excellent. Verifying through an independent channel is the right instinct. Even if you find a matching profile, make sure any application link goes only to google.com before you click anything.' },
     ],
@@ -213,42 +213,42 @@ const scenarios = [
   },
   {
     id: 'se3',
-    toolbar: 'Office Building — Entrance',
-    tactic: 'Tailgating — letting an unauthorised person follow you through a secure door',
+    toolbar: 'Office Building, Entrance',
+    tactic: 'Tailgating, letting an unauthorised person follow you through a secure door',
     render: () => `
-      <div class="mixed-indicator">Scenario 3 of 5 — Physical Security</div>
+      <div class="mixed-indicator">Scenario 3 of 5, Physical Security</div>
       <div class="tactic-tag">What's happening: Stranger trying to follow you into a secure building</div>
       <div class="account-card" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem">
         <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7">
           You're entering your office through a key-card controlled door. A smartly dressed person is standing behind you carrying a large box. They say:<br><br>
-          <em style="color:var(--text)">"Could you hold the door? My hands are full — I'm from IT, here to swap out the switches on the third floor. My access card is in my pocket."</em><br><br>
+          <em style="color:var(--text)">"Could you hold the door? My hands are full, I'm from IT, here to swap out the switches on the third floor. My access card is in my pocket."</em><br><br>
           They look confident and professional. They have a lanyard, but the badge is turned face-down so you can't read it.
         </p>
       </div>
       <div class="info-box" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem">
         <h4>Warning signs here</h4>
         <ul style="font-size:0.82rem;color:var(--text-muted);padding-left:1rem;line-height:1.8">
-          <li>Badge is turned away — you can't verify who they are</li>
-          <li>Carrying a large box deliberately — hands full, can't badge in</li>
-          <li>Using your politeness as the weakness — hard to say no without feeling rude</li>
-          <li>No advance notice of an IT visit — you can check this with your front desk</li>
+          <li>Badge is turned away, you can't verify who they are</li>
+          <li>Carrying a large box deliberately, hands full, can't badge in</li>
+          <li>Using your politeness as the weakness, hard to say no without feeling rude</li>
+          <li>No advance notice of an IT visit, you can check this with your front desk</li>
         </ul>
       </div>
       <p style="font-size:0.85rem;color:var(--text-muted)">👆 What do you do?</p>
     `,
     choices: [
-      { text: 'Hold the door — it would be rude not to and they look legitimate', correct: false, type: 'wrong', feedback: 'This is called tailgating. Attackers deliberately carry heavy items and look professional specifically because they know politeness makes it hard to refuse. The turned badge and lack of advance notice are red flags. A real authorised IT contractor would have their ID visible and would be expected by reception.' },
-      { text: 'Ask them to show their badge and check with reception before allowing entry', correct: true, type: 'correct', feedback: 'Correct. It is professional — not rude — to ask anyone entering a secure area to verify their identity. Authorised visitors will not mind. Attackers typically make an excuse and leave when challenged. A quick call to reception takes 30 seconds.' },
+      { text: 'Hold the door, it would be rude not to and they look legitimate', correct: false, type: 'wrong', feedback: 'This is called tailgating. Attackers deliberately carry heavy items and look professional specifically because they know politeness makes it hard to refuse. The turned badge and lack of advance notice are red flags. A real authorised IT contractor would have their ID visible and would be expected by reception.' },
+      { text: 'Ask them to show their badge and check with reception before allowing entry', correct: true, type: 'correct', feedback: 'Correct. It is professional, not rude, to ask anyone entering a secure area to verify their identity. Authorised visitors will not mind. Attackers typically make an excuse and leave when challenged. A quick call to reception takes 30 seconds.' },
       { text: 'Hold the door but follow them to see where they go', correct: false, type: 'neutral', feedback: 'You\'ve already let an unverified person into a secure area. Following them puts you in an awkward and potentially unsafe position. The right action is not to hold the door in the first place, or to alert security immediately if already inside.' },
     ],
     points: 25,
   },
   {
     id: 'se4',
-    toolbar: 'WhatsApp — Messages',
+    toolbar: 'WhatsApp, Messages',
     tactic: 'Family Impersonation + Emotional Urgency',
     render: () => `
-      <div class="mixed-indicator">Scenario 4 of 5 — The "Hi Mum" Money Scam</div>
+      <div class="mixed-indicator">Scenario 4 of 5, The "Hi Mum" Money Scam</div>
       <div class="tactic-tag">What's happening: Someone pretending to be a family member in distress</div>
       <div class="chat-mock">
         <div class="chat-header">
@@ -256,47 +256,47 @@ const scenarios = [
           <div><div class="chat-name">Mum 💕</div><div class="chat-sub">Unknown number</div></div>
         </div>
         <div class="chat-messages">
-          <div class="msg msg-them"><div class="msg-sender">Mum</div>Hi darling, it's Mum. I've had to change my number — can you save this one?</div>
+          <div class="msg msg-them"><div class="msg-sender">Mum</div>Hi darling, it's Mum. I've had to change my number, can you save this one?</div>
           <div class="msg msg-you"><div class="msg-sender">You</div>Oh okay! Why did you change it?</div>
-          <div class="msg msg-them"><div class="msg-sender">Mum</div>I'll explain later. I'm in a bit of an emergency — I need to transfer £800 to pay a builder but my bank app isn't working on this new phone. Could you send it for me and I'll pay you back tonight? It's urgent.</div>
-          <div class="msg msg-them"><div class="msg-sender">Mum</div>Please don't call the old number — it's been disconnected.</div>
+          <div class="msg msg-them"><div class="msg-sender">Mum</div>I'll explain later. I'm in a bit of an emergency, I need to transfer £800 to pay a builder but my bank app isn't working on this new phone. Could you send it for me and I'll pay you back tonight? It's urgent.</div>
+          <div class="msg msg-them"><div class="msg-sender">Mum</div>Please don't call the old number, it's been disconnected.</div>
         </div>
       </div>
-      <div class="tactic-reveal" style="margin-top:0.75rem"><strong>What's being used against you:</strong> Love for your mum, financial urgency, and the instruction not to call the old number — which prevents you from verifying. This is the UK's most financially damaging messaging scam.</div>
+      <div class="tactic-reveal" style="margin-top:0.75rem"><strong>What's being used against you:</strong> Love for your mum, financial urgency, and the instruction not to call the old number, which prevents you from verifying. This is the UK's most financially damaging messaging scam.</div>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 What do you do?</p>
     `,
     choices: [
-      { text: 'Send the money — it sounds like Mum and she sounds stressed', correct: false, type: 'wrong', feedback: 'This is the "Hi Mum" or "Hi Dad" scam — one of the most widespread in the UK, costing victims millions every year. The scammer is deliberately using your love and concern for your family. The instruction "don\'t call the old number" is there specifically to stop you verifying. Always call a known number first — even a sibling or another family member.' },
+      { text: 'Send the money, it sounds like Mum and she sounds stressed', correct: false, type: 'wrong', feedback: 'This is the "Hi Mum" or "Hi Dad" scam, one of the most widespread in the UK, costing victims millions every year. The scammer is deliberately using your love and concern for your family. The instruction "don\'t call the old number" is there specifically to stop you verifying. Always call a known number first, even a sibling or another family member.' },
       { text: 'Call Mum on her real number first to verify it\'s actually her', correct: true, type: 'correct', feedback: 'Correct. The only safe action is calling her real number independently. If the old number is genuinely disconnected, try another family member. This scam works precisely because it feels real and urgent. Verification through a known number is the only reliable defence.' },
-      { text: 'Ask a question only Mum would know to verify', correct: false, type: 'neutral', feedback: 'Better than sending money — but scammers sometimes research families through social media and can answer simple personal questions. Calling her real number is the only reliable verification. Don\'t substitute a security question for an actual call.' },
-      { text: 'Ignore the message', correct: false, type: 'neutral', feedback: 'Safer than sending money. But if this were genuinely your mum in an emergency, ignoring would cause real distress. The right response is calling her real number — that resolves both possibilities in 30 seconds.' },
+      { text: 'Ask a question only Mum would know to verify', correct: false, type: 'neutral', feedback: 'Better than sending money, but scammers sometimes research families through social media and can answer simple personal questions. Calling her real number is the only reliable verification. Don\'t substitute a security question for an actual call.' },
+      { text: 'Ignore the message', correct: false, type: 'neutral', feedback: 'Safer than sending money. But if this were genuinely your mum in an emergency, ignoring would cause real distress. The right response is calling her real number, that resolves both possibilities in 30 seconds.' },
     ],
     points: 30,
   },
   {
     id: 'se5',
-    toolbar: 'Car Park — University Campus',
-    tactic: 'Baiting — using curiosity to get you to plug in a dangerous device',
+    toolbar: 'Car Park, University Campus',
+    tactic: 'Baiting, using curiosity to get you to plug in a dangerous device',
     render: () => `
-      <div class="mixed-indicator">Scenario 5 of 5 — Found USB Drive</div>
+      <div class="mixed-indicator">Scenario 5 of 5, Found USB Drive</div>
       <div class="tactic-tag">What's happening: A trap using your natural curiosity</div>
       <div class="account-card" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem">
         <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7">
           You find a USB drive in the car park of your university. It has a label that reads:<br><br>
-          <strong style="color:var(--text)">"PRIVATE — Exam Results 2024/25"</strong><br><br>
+          <strong style="color:var(--text)">"PRIVATE, Exam Results 2024/25"</strong><br><br>
           You're curious what's on it. Your laptop is in your bag. What do you do?
         </p>
       </div>
       <div class="info-box" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem">
         <h4>Why the label says "Exam Results"</h4>
-        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.7">The label was chosen specifically because it's irresistible to students. Curiosity is the weapon. Research found that almost half of people who find USB drives plug them in — often within minutes. Malicious USB drives can silently install software that records your passwords and sends them to the attacker, or lock your entire computer for a ransom.</p>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.7">The label was chosen specifically because it's irresistible to students. Curiosity is the weapon. Research found that almost half of people who find USB drives plug them in, often within minutes. Malicious USB drives can silently install software that records your passwords and sends them to the attacker, or lock your entire computer for a ransom.</p>
       </div>
       <p style="font-size:0.85rem;color:var(--text-muted)">👆 What do you do?</p>
     `,
     choices: [
-      { text: 'Plug it in — I\'ll run a quick antivirus scan first to be safe', correct: false, type: 'wrong', feedback: 'Even an antivirus scan won\'t always protect you. Some malicious USB devices (called BadUSB) reprogram themselves to look like a keyboard and start typing commands the moment they\'re connected — before any scan can run. The attack begins instantly. Never plug in a USB drive you found.' },
-      { text: 'Hand it to university IT or security — don\'t plug it in', correct: true, type: 'correct', feedback: 'Correct. IT departments have special equipment to safely examine unknown drives without risk. Handing it over also means if it\'s genuine lost property, the owner can get it back. The label "Exam Results" was chosen to make you curious — recognising that manipulation is the first line of defence.' },
-      { text: 'Leave it where you found it — not my problem', correct: false, type: 'neutral', feedback: 'Better than plugging it in. But leaving it means someone else might find it and plug it in. Handing it to IT takes 2 minutes and removes the risk for everyone. That small effort could prevent significant harm.' },
+      { text: 'Plug it in, I\'ll run a quick antivirus scan first to be safe', correct: false, type: 'wrong', feedback: 'Even an antivirus scan won\'t always protect you. Some malicious USB devices (called BadUSB) reprogram themselves to look like a keyboard and start typing commands the moment they\'re connected, before any scan can run. The attack begins instantly. Never plug in a USB drive you found.' },
+      { text: 'Hand it to university IT or security, don\'t plug it in', correct: true, type: 'correct', feedback: 'Correct. IT departments have special equipment to safely examine unknown drives without risk. Handing it over also means if it\'s genuine lost property, the owner can get it back. The label "Exam Results" was chosen to make you curious, recognising that manipulation is the first line of defence.' },
+      { text: 'Leave it where you found it, not my problem', correct: false, type: 'neutral', feedback: 'Better than plugging it in. But leaving it means someone else might find it and plug it in. Handing it to IT takes 2 minutes and removes the risk for everyone. That small effort could prevent significant harm.' },
       { text: 'Try it on a different computer that I don\'t mind risking', correct: false, type: 'wrong', feedback: 'That computer could be on a university network, which would spread the attack further. There is no safe way to test an unknown USB drive on a normal computer. Only IT with specialist equipment can do it safely.' },
     ],
     points: 20,
@@ -337,15 +337,15 @@ function render() {
   });
   document.getElementById('scenario-body').appendChild(wrap);
 
-  // Technique 2: Cognitive Reappraisal — brief pause before choices unlock
+  // Technique 2: Cognitive Reappraisal, brief pause before choices unlock
   AnxietyRegulation.injectReappraisal(wrap);
 
-  // Technique 3: Confidence Scaffolding — difficulty badge at top of body
+  // Technique 3: Confidence Scaffolding, difficulty badge at top of body
   const bodyEl = document.getElementById('scenario-body');
   bodyEl.insertAdjacentHTML('afterbegin', AnxietyRegulation.getDifficultyBadge('social', current));
 
-  // Confidence meter at bottom — safe injection
-  const meterHTML = AnxietyRegulation.getConfidenceMeter('social', current);
+  // Confidence meter at bottom, safe injection
+  const meterHTML = AnxietyRegulation.getConfidenceMeter('social');
   if (meterHTML) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = meterHTML;
@@ -383,13 +383,17 @@ function answer(choice, btn, sc) {
 
   const fb = document.getElementById('feedback');
   fb.className = `feedback-box show ${choice.correct ? 'good' : choice.type === 'neutral' ? 'info' : 'bad'}`;
-  fb.innerHTML = `<div class="feedback-title">${choice.correct ? '✓ Good call' : choice.type === 'neutral' ? '△ Almost — here\'s the full picture' : '✗ This one got you — here\'s why'} ${pts>0?`<span style="float:right;font-weight:400;color:var(--amber)">+${pts} pts</span>`:''}</div><p style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.5rem">Tactic used: ${sc.tactic}</p>${choice.feedback}`;
+  fb.innerHTML = `<div class="feedback-title">${choice.correct ? '✓ Good call' : choice.type === 'neutral' ? '△ Almost, here\'s the full picture' : '✗ This one got you, here\'s why'} ${pts>0?`<span style="float:right;font-weight:400;color:var(--amber)">+${pts} pts</span>`:''}</div><p style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.5rem">Tactic used: ${sc.tactic}</p>${choice.feedback}`;
 
   if (!choice.correct || choice.type === 'neutral') {
     const g = CyberGuard.getGuidance('social');
     const gb = document.getElementById('guidance-box');
     gb.style.display = 'block';
-    gb.innerHTML = `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
+    // Three-layer wrong-answer response:
+    // Layer B (amber): blame-removing reassurance, emotional reframe first (Gross, 2002)
+    // Layer C (blue):  module-specific knowledge guidance
+    gb.innerHTML = AnxietyRegulation.getReassuranceMessage() +
+      `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
   } else {
     const g = CyberGuard.getGuidance('confident');
     const gb = document.getElementById('guidance-box');
