@@ -839,3 +839,20 @@ nav {
   transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
   width: 0%;
 }
+
+/* ── Technique 4: Three-Layer Wrong-Answer Reassurance ── */
+.reassurance-box {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  background: rgba(227,179,65,0.07);
+  border: 1px solid rgba(227,179,65,0.25);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.4s ease;
+}
+.reassurance-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+.reassurance-text {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
