@@ -15,7 +15,7 @@ const CyberGuard = (() => {
     correctAnswers: 0,
     totalAnswers: 0,
     sessionStart: null,
-    moduleProgress: { phishing: 0, password: 0, social: 0 },
+    moduleProgress: { phishing: 0, password: 0, social: 0, malvertising: 0, 'ai-injection': 0 },
   };
 
   function loadState() {

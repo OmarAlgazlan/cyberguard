@@ -83,7 +83,9 @@ const AnxietyRegulation = (() => {
   const DIFFICULTY = {
     phishing: ['easy', 'easy', 'medium', 'medium', 'hard'],
     password: ['easy', 'medium', 'medium', 'hard'],
-    social:   ['easy', 'medium', 'medium', 'hard', 'hard'],
+    social:        ['easy', 'medium', 'medium', 'hard', 'hard'],
+    malvertising:  ['easy', 'medium', 'medium', 'hard'],
+    'ai-injection': ['easy', 'medium', 'medium', 'hard'],
   };
 
   const DIFFICULTY_LABELS = {

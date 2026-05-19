@@ -64,6 +64,12 @@
     <li><a href="challenges.html" style="color:var(--text)">Challenges</a></li>
     <li><a href="results.html">Results</a></li>
   </ul>
+  <button id="nav-auth-btn" onclick="CyberGuardAuth.openModal()"
+    style="background:none;border:1px solid var(--border);border-radius:4px;
+           padding:0.3rem 0.75rem;color:var(--text-muted);cursor:pointer;
+           font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
+    Save Progress
+  </button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
 
@@ -120,6 +126,32 @@
           </div>
           <div class="card-badge" style="margin-top:0.75rem">5 Scenarios · Advanced</div>
         </a>
+
+        <!-- Malvertising -->
+        <a href="malvertising.html" class="challenge-card" id="card-malvertising" style="border-color:rgba(88,166,255,0.3)">
+          <div class="card-status" id="status-malvertising"></div>
+          <div class="card-icon">🌐</div>
+          <h3>Malvertising and Unsafe Browsing</h3>
+          <p>Spot dangerous ads, fake downloads, open redirects and SSL stripping attacks before they catch you out.</p>
+          <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
+            <span class="tag tag-blue">Blue Team</span>
+            <span class="tag tag-amber">+100 pts</span>
+          </div>
+          <div class="card-badge" style="margin-top:0.75rem">4 Scenarios · Intermediate</div>
+        </a>
+
+        <!-- AI Injection -->
+        <a href="ai-injection.html" class="challenge-card" id="card-ai-injection" style="border-color:rgba(167,139,250,0.3)">
+          <div class="card-status" id="status-ai-injection"></div>
+          <div class="card-icon">🤖</div>
+          <h3>AI and Account Attacks</h3>
+          <p>AI prompt injection, user enumeration, and account lockout attacks. New threats for a new era.</p>
+          <div class="tag-row" style="margin-top:1rem;margin-bottom:0">
+            <span class="tag tag-red">Advanced</span>
+            <span class="tag tag-amber">+100 pts</span>
+          </div>
+          <div class="card-badge" style="margin-top:0.75rem">4 Scenarios · Advanced</div>
+        </a>
       </div>
 
       <!-- Guidance teaser -->
@@ -132,26 +164,13 @@
     <!-- Sidebar progress -->
     <div class="progress-overview">
       <div class="prog-title">Your Progress</div>
-      <div class="prog-item">
-        <span>Phishing</span>
-        <span class="prog-check" id="prog-phishing">○</span>
-      </div>
-      <div class="prog-item">
-        <span>Password Misuse</span>
-        <span class="prog-check" id="prog-password">○</span>
-      </div>
-      <div class="prog-item">
-        <span>Social Engineering</span>
-        <span class="prog-check" id="prog-social">○</span>
-      </div>
-      <div class="prog-item">
-        <span>Pre-Assessment</span>
-        <span class="prog-check" id="prog-pre">○</span>
-      </div>
-      <div class="prog-item">
-        <span>Post-Assessment</span>
-        <span class="prog-check" id="prog-post">○</span>
-      </div>
+      <div class="prog-item"><span>Phishing</span><span class="prog-check" id="prog-phishing">○</span></div>
+      <div class="prog-item"><span>Password Misuse</span><span class="prog-check" id="prog-password">○</span></div>
+      <div class="prog-item"><span>Social Engineering</span><span class="prog-check" id="prog-social">○</span></div>
+      <div class="prog-item"><span>Malvertising</span><span class="prog-check" id="prog-malvertising">○</span></div>
+      <div class="prog-item"><span>AI and Account Attacks</span><span class="prog-check" id="prog-ai-injection">○</span></div>
+      <div class="prog-item"><span>Pre-Assessment</span><span class="prog-check" id="prog-pre">○</span></div>
+      <div class="prog-item"><span>Post-Assessment</span><span class="prog-check" id="prog-post">○</span></div>
       <div class="score-display">
         <div class="score-num" id="sidebar-score">0</div>
         <div class="score-label">Total Points</div>
@@ -164,9 +183,12 @@
 </div>
 
 <script src="app.js"></script>
+<script src="api.js"></script>
+<script src="auth.js"></script>
 <script src="breathing.js"></script>
 <script>
   CyberGuard.refreshNavScore();
+  CyberGuardAuth.init();
   const s = CyberGuard.getState();
 
   // Baseline warning
@@ -175,19 +197,21 @@
   }
 
   // Progress checks
-  const challenges = ['phishing', 'password', 'social'];
+  const challenges = ['phishing', 'password', 'social', 'malvertising', 'ai-injection'];
   challenges.forEach(id => {
     const done = s.challengesCompleted.includes(id);
-    document.getElementById('prog-' + id).textContent = done ? '✅' : '○';
-    if (done) document.getElementById('status-' + id).classList.add('done');
+    const progEl = document.getElementById('prog-' + id);
+    const statusEl = document.getElementById('status-' + id);
+    if (progEl) progEl.textContent = done ? '✅' : '○';
+    if (done && statusEl) statusEl.classList.add('done');
   });
 
   document.getElementById('prog-pre').textContent = s.preAnxiety ? '✅' : '○';
   document.getElementById('prog-post').textContent = s.postAnxiety ? '✅' : '○';
   document.getElementById('sidebar-score').textContent = s.score;
 
-  // Show results link if all done
-  if (s.challengesCompleted.length === 3) {
+  // Show results link if all 5 modules done
+  if (s.challengesCompleted.length === 5) {
     document.getElementById('results-link-wrap').style.display = 'block';
   }
 

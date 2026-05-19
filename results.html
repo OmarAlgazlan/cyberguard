@@ -68,6 +68,12 @@
     <li><a href="challenges.html">Challenges</a></li>
     <li><a href="results.html" style="color:var(--text)">Results</a></li>
   </ul>
+  <button id="nav-auth-btn" onclick="CyberGuardAuth.openModal()"
+    style="background:none;border:1px solid var(--border);border-radius:4px;
+           padding:0.3rem 0.75rem;color:var(--text-muted);cursor:pointer;
+           font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
+    Save Progress
+  </button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
 
@@ -193,7 +199,16 @@
     </div>
 
     <!-- Share / reset -->
-    <div class="share-box">
+    <div id="save-results-prompt" style="display:none;background:rgba(31,111,235,0.07);
+     border:1px solid rgba(31,111,235,0.2);border-radius:8px;padding:1.25rem;margin-bottom:1.5rem;text-align:center">
+  <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:0.75rem">
+    💾 <strong style="color:var(--blue-bright)">Save your results</strong> and get a shareable link to your score.
+  </p>
+  <button onclick="CyberGuardAuth.openModal()" class="btn btn-primary" style="margin-right:0.5rem">
+    Save and Share Results
+  </button>
+</div>
+<div class="share-box">
       <h3>Training Complete 🎉</h3>
       <p>You've completed the CyberGuard anxiety reduction training. Your results have been recorded for evaluation purposes.</p>
       <button class="btn btn-outline" onclick="resetAndStart()" style="margin-right:0.75rem">Start Over</button>
@@ -203,9 +218,12 @@
 </div>
 
 <script src="app.js"></script>
+<script src="api.js"></script>
+<script src="auth.js"></script>
 <script src="breathing.js"></script>
 <script>
   CyberGuard.refreshNavScore();
+  CyberGuardAuth.init();
   const s = CyberGuard.getState();
 
   // Check completion
@@ -295,6 +313,19 @@
     document.getElementById('stat-correct').textContent = st.correctAnswers;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Offer to save results if not logged in
+    if (!CyberGuardAPI.isLoggedIn()) {
+      setTimeout(() => {
+        const saveEl = document.getElementById('save-results-prompt');
+        if (saveEl) saveEl.style.display = 'block';
+      }, 1500);
+    } else {
+      // Auto-save for logged-in users
+      CyberGuardAPI.saveResults(CyberGuard.getState()).then(saved => {
+        if (saved) CyberGuardAuth.showShareBanner(saved.share_url);
+      }).catch(console.error);
+    }
   }
 
   function resetAndStart() {

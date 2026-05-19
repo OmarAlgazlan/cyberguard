@@ -83,6 +83,12 @@
     <li><a href="challenges.html">Challenges</a></li>
     <li><a href="results.html">Results</a></li>
   </ul>
+  <button id="nav-auth-btn" onclick="CyberGuardAuth.openModal()"
+    style="background:none;border:1px solid var(--border);border-radius:4px;
+           padding:0.3rem 0.75rem;color:var(--text-muted);cursor:pointer;
+           font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
+    Save Progress
+  </button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
 
@@ -195,6 +201,8 @@
 </section>
 
 <script src="app.js"></script>
+<script src="api.js"></script>
+<script src="auth.js"></script>
 <script>
   const scale = document.getElementById('pre-scale');
   for (let i = 1; i <= 10; i++) {
@@ -211,6 +219,7 @@
   }
 
   CyberGuard.refreshNavScore();
+  CyberGuardAuth.init();
 
   const s = CyberGuard.getState();
   if (s.preAnxiety !== null) {

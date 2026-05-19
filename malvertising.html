@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malvertising, CyberGuard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .module-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; max-width: 640px; margin: 0 auto 2rem; text-align: center; }
+    .module-intro .big-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .module-intro h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .plain-explainer { background: rgba(88,166,255,0.06); border: 1px solid rgba(88,166,255,0.15); border-radius: 6px; padding: 1rem 1.25rem; margin: 1rem 0; text-align: left; }
+    .plain-explainer h4 { color: var(--blue-bright); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .plain-explainer p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .task-box { background: rgba(255,59,59,0.07); border: 1px solid rgba(255,59,59,0.2); border-radius: 6px; padding: 1rem 1.25rem; text-align: left; margin: 1rem 0; }
+    .task-box h4 { color: var(--red); font-size: 0.85rem; margin-bottom: 0.4rem; }
+    .task-box p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .browser-mock { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; }
+    .browser-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .browser-dots { display: flex; gap: 5px; }
+    .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-url-bar { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 0.3rem 0.75rem; font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+    .lock-icon { color: var(--green); font-size: 0.7rem; }
+    .lock-icon.unsafe { color: var(--red); }
+    .browser-content { padding: 1.25rem; min-height: 180px; position: relative; }
+    .ad-banner { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 2px solid var(--amber); border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 1rem; position: relative; cursor: pointer; }
+    .ad-label { position: absolute; top: 4px; right: 8px; font-size: 0.6rem; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+    .ad-title { color: var(--amber); font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .ad-body { font-size: 0.8rem; color: var(--text-muted); }
+    .ad-btn { display: inline-block; margin-top: 0.75rem; background: var(--amber); color: var(--bg); padding: 0.4rem 1rem; border-radius: 3px; font-size: 0.78rem; font-weight: 700; }
+    .popup-overlay { background: rgba(0,0,0,0.7); border-radius: 8px; padding: 1.5rem; text-align: center; border: 2px solid var(--red); }
+    .popup-title { color: var(--red); font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .popup-body { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem; }
+    .popup-btn { display: inline-block; background: var(--red); color: white; padding: 0.5rem 1.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 700; margin: 0.25rem; cursor: pointer; }
+    .popup-btn.safe { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+    .download-section { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem; }
+    .download-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+    .download-btn-real { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--green); color: white; padding: 0.6rem 1.25rem; border-radius: 4px; font-size: 0.85rem; font-weight: 700; margin: 0.25rem; }
+    .download-btn-fake { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--blue); color: white; padding: 0.6rem 1.25rem; border-radius: 4px; font-size: 0.85rem; font-weight: 700; margin: 0.25rem; border: 2px solid var(--amber); }
+    .download-label { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.4rem; }
+    .ssl-warning { background: rgba(255,59,59,0.08); border: 1px solid rgba(255,59,59,0.25); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; font-size: 0.85rem; }
+    .redirect-url { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-muted); background: var(--surface2); padding: 0.5rem 0.75rem; border-radius: 4px; margin: 0.5rem 0; word-break: break-all; }
+    .redirect-url .safe-part { color: var(--green); }
+    .redirect-url .danger-part { color: var(--red); }
+    .attack-first-banner { background: rgba(227,179,65,0.08); border: 1px solid rgba(227,179,65,0.2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.82rem; color: var(--amber); display: flex; align-items: center; gap: 0.5rem; }
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="challenges.html">Challenges</a></li>
+    <li><a href="results.html">Results</a></li>
+  </ul>
+  <button id="nav-auth-btn" onclick="CyberGuardAuth.openModal()"
+    style="background:none;border:1px solid var(--border);border-radius:4px;
+           padding:0.3rem 0.75rem;color:var(--text-muted);cursor:pointer;
+           font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
+    Save Progress
+  </button>
+  <div class="nav-score" id="nav-score">⬡ 0 pts</div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">Module 4, Unsafe Browsing</div>
+    <h1>Malvertising and Unsafe Browsing</h1>
+    <p>Learn to spot dangerous ads, fake downloads, and deceptive websites before they cause harm.</p>
+  </div>
+
+  <div id="module-intro" class="module-intro">
+    <div class="big-icon">🌐</div>
+    <h2>Attacks that happen while you simply browse the web</h2>
+    <div class="plain-explainer">
+      <h4>📢 What is malvertising?</h4>
+      <p><strong>Malvertising</strong> means malicious advertising. Criminals pay real advertising networks to display ads that look completely normal but redirect you to dangerous websites or trigger automatic downloads of malware. You do not have to click anything suspicious, sometimes just loading the page is enough. Even legitimate, trusted websites have served malicious ads without knowing it.</p>
+    </div>
+    <div class="plain-explainer">
+      <h4>🔗 What is an open redirect?</h4>
+      <p>An <strong>open redirect</strong> is when a legitimate website's URL is used to secretly forward you somewhere dangerous. The link looks like it goes to a trusted site (like google.com or your bank), but the end of the URL contains hidden instructions that send you somewhere completely different. These are especially dangerous in emails and messages.</p>
+    </div>
+    <div class="plain-explainer">
+      <h4>🔒 What is SSL stripping?</h4>
+      <p>When a website shows a padlock icon, it means the connection is encrypted and secure. <strong>SSL stripping</strong> is an attack that silently removes that encryption without you noticing, so everything you type, passwords, card numbers, is sent in plain text that anyone on the same network can read. Always check the padlock before entering sensitive information.</p>
+    </div>
+    <div class="task-box">
+      <h4>🎯 Your task in this module</h4>
+      <p>You will see 4 realistic browsing situations. In each one, identify what is dangerous and choose the safest response. The attack is shown to you first so you can see exactly how it works, then you decide what to do.</p>
+    </div>
+    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I understand, show me the attacks →</button>
+  </div>
+
+  <div class="progress-bar-wrap" id="progress-wrap" style="display:none">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+
+  <div id="scenario-area" style="display:none">
+    <div class="scenario-wrap" id="scenario-wrap">
+      <div class="scenario-main">
+        <div class="scenario-toolbar">
+          <div class="toolbar-dot dot-red"></div>
+          <div class="toolbar-dot dot-amber"></div>
+          <div class="toolbar-dot dot-green"></div>
+          <div class="toolbar-url" id="toolbar-label">Browser</div>
+        </div>
+        <div class="scenario-body" id="scenario-body"></div>
+      </div>
+      <div class="sidebar-panel">
+        <div class="info-box">
+          <h4>🌐 Safe browsing habits</h4>
+          <p>Check the padlock before entering any information. Hover over links to see the real destination. Be suspicious of any popup urging immediate action. Use an ad blocker.</p>
+        </div>
+        <div class="info-box">
+          <h4>The attack is shown first</h4>
+          <p>Each scenario shows you exactly what the attack looks like. Your job is to recognise it and choose the safest response, not to avoid it blindly.</p>
+        </div>
+        <div class="score-badge">⬡ <span id="session-score">0</span> pts this session</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feedback-box" id="feedback"></div>
+  <div class="guidance-box" id="guidance-box" style="display:none"></div>
+  <div class="next-btn-row" id="nav-row" style="display:none">
+    <button class="btn btn-outline" onclick="nextScenario()">Next Scenario →</button>
+  </div>
+
+  <div id="completion" style="display:none; text-align:center; padding:3rem 0;">
+    <div style="font-size:3rem;margin-bottom:1rem;">🌐</div>
+    <h2 style="font-size:1.8rem;margin-bottom:0.75rem;">Malvertising Module Complete</h2>
+    <p class="text-muted" style="margin-bottom:2rem;">You identified <span id="final-correct" class="text-green"></span> attacks correctly out of 4.</p>
+    <div class="guidance-box" style="text-align:left;max-width:580px;margin:0 auto 2rem;">
+      <h3>💡 What to carry forward</h3>
+      <div class="tips-list">
+        <div class="tip"><span class="tip-icon">✓</span><span>Always check the padlock and full URL before entering any information</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Hover over any link to see the real destination before clicking</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Legitimate software never needs to be downloaded through an ad</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>Use an ad blocker, it is one of the most effective free security tools available</span></div>
+        <div class="tip"><span class="tip-icon">✓</span><span>If a popup creates urgency, close the entire browser tab, do not interact with it</span></div>
+      </div>
+    </div>
+    <a href="challenges.html" class="btn btn-primary">Back to Challenges</a>
+    <a href="ai-injection.html" class="btn btn-outline" style="margin-left:1rem">Next Module →</a>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="api.js"></script>
+<script src="auth.js"></script>
+<script src="anxiety_regulation.js"></script>
+<script>
+const scenarios = [
+  {
+    id: 'mal1',
+    toolbar: 'newswebsite.co.uk, Today\'s Headlines',
+    difficulty: 'easy',
+    render: () => `
+      <div class="attack-first-banner">⚠ Attack shown first: this is what a malvertising ad looks like on a real news website</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">You are reading a news article. This ad appears in the sidebar. It looks professional and urgent.</p>
+      <div class="browser-mock">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="browser-dot" style="background:#ff5f57"></div><div class="browser-dot" style="background:#febc2e"></div><div class="browser-dot" style="background:#28c840"></div></div>
+          <div class="browser-url-bar"><span class="lock-icon">🔒</span> newswebsite.co.uk/article/breaking-news</div>
+        </div>
+        <div class="browser-content">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">...the government announced new measures today following...</p>
+          <div class="ad-banner">
+            <div class="ad-label">Ad</div>
+            <div class="ad-title">⚠ Your PC is infected with 3 viruses!</div>
+            <div class="ad-body">Windows Defender has detected critical threats. Your personal data is at risk. Download the free scanner immediately to remove them.</div>
+            <div class="ad-btn">Download Free Scanner Now</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 What do you do?</p>
+    `,
+    choices: [
+      { text: 'Click the ad and download the scanner, my PC might genuinely be infected', correct: false, type: 'wrong', feedback: 'This is a classic malvertising attack. No legitimate antivirus communicates through browser ads. Windows Defender does not generate ads on news websites. Clicking would download actual malware disguised as a scanner. The urgency and fear are deliberate manipulation tactics.' },
+      { text: 'Ignore the ad and close it, if I am worried I will open Windows Defender directly from the Start menu', correct: true, type: 'correct', feedback: 'Correct. Legitimate security software never communicates through third-party website ads. If you want to check your PC for viruses, open your actual security software directly. The ad is the attack, not a warning about one.' },
+      { text: 'Right-click the ad to inspect where it actually links to', correct: false, type: 'neutral', feedback: 'Investigating is better than clicking blindly, but inspecting a malicious ad can sometimes trigger the attack in certain browsers. The safest response is always to ignore and close. If you are worried about your PC, check your actual security software directly.' },
+    ],
+    points: 20,
+  },
+  {
+    id: 'mal2',
+    toolbar: 'Checking a link before clicking',
+    difficulty: 'medium',
+    render: () => `
+      <div class="attack-first-banner">⚠ Attack shown first: this is what an open redirect looks like</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">You receive this link in an email. Before clicking, you hover over it to check the URL. Here is what you see in the browser status bar:</p>
+      <div class="redirect-url">
+        <span class="safe-part">https://www.google.com/url?q=</span><span class="danger-part">http://steal-your-login.ru/google-signin&sa=D</span>
+      </div>
+      <div class="plain-explainer" style="margin-top:1rem">
+        <h4>What is happening here</h4>
+        <p>The link starts with google.com which looks trustworthy. But the <strong>q=</strong> parameter tells Google's redirect service to forward you to a completely different website. The final destination is <strong>steal-your-login.ru</strong>, a fake Google sign-in page designed to capture your password.</p>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 What do you do?</p>
+    `,
+    choices: [
+      { text: 'Click it, the link starts with google.com so it must be safe', correct: false, type: 'wrong', feedback: 'The google.com part is deliberately placed at the start to trick you. The actual destination is everything after q= in the URL. Open redirect vulnerabilities allow attackers to use trusted domains as a launcher to send you somewhere dangerous. Always read the full URL, not just the beginning.' },
+      { text: 'Do not click it, the destination after q= is a suspicious Russian domain unrelated to Google', correct: true, type: 'correct', feedback: 'Correct. You identified the open redirect. The google.com part is bait. The actual destination is steal-your-login.ru. This technique exploits the trust people have in recognisable domain names by hiding the real destination in a redirect parameter.' },
+      { text: 'Copy just the google.com part and navigate there manually', correct: false, type: 'neutral', feedback: 'Better than clicking the full link. But the correct action is to recognise the open redirect and delete the entire link. If you need to go to Google, type google.com yourself in a fresh tab.' },
+    ],
+    points: 25,
+  },
+  {
+    id: 'mal3',
+    toolbar: 'vlc-download.org, Free VLC Media Player',
+    difficulty: 'medium',
+    render: () => `
+      <div class="attack-first-banner">⚠ Attack shown first: this is a fake download site designed to look official</div>
+      <div class="browser-mock">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="browser-dot" style="background:#ff5f57"></div><div class="browser-dot" style="background:#febc2e"></div><div class="browser-dot" style="background:#28c840"></div></div>
+          <div class="browser-url-bar"><span class="lock-icon">🔒</span> vlc-download.org/free-vlc-player</div>
+        </div>
+        <div class="browser-content">
+          <div class="download-section">
+            <div class="download-title">VLC Media Player, Free Download</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem">The world's best free media player. Download instantly, no registration required.</p>
+            <div>
+              <div class="download-btn-fake">⬇ Download VLC Free (Recommended)</div>
+              <div class="download-label">Highlighted button, 47MB, Includes bonus software</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="download-btn-real" style="opacity:0.5;font-size:0.75rem">Direct download link</div>
+              <div class="download-label">Small grey text, harder to see</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 You want to download VLC. What do you do?</p>
+    `,
+    choices: [
+      { text: 'Click the big highlighted Download button, it is the most obvious choice', correct: false, type: 'wrong', feedback: 'The big highlighted button is the fake. "Includes bonus software" is a warning sign, this typically means adware or malware bundled with the download. The real VLC player is available only at videolan.org. Third-party download sites make money by bundling malware with legitimate software.' },
+      { text: 'Notice this is not the official VLC website (videolan.org) and go there directly instead', correct: true, type: 'correct', feedback: 'Correct. The official VLC website is videolan.org. Any other domain claiming to offer VLC for free is a third-party site that may bundle malware. Always download software directly from the official developer website, not from third-party download portals.' },
+      { text: 'Use the smaller direct download link instead of the big button', correct: false, type: 'neutral', feedback: 'Avoiding the big fake button shows good instinct. But even the direct link on a third-party site may deliver a modified version of the software. The only safe source for VLC is videolan.org. Never download software from sites you did not actively navigate to.' },
+    ],
+    points: 25,
+  },
+  {
+    id: 'mal4',
+    toolbar: 'onlinebanking-secure.com, Sign In',
+    difficulty: 'hard',
+    render: () => `
+      <div class="attack-first-banner">⚠ Attack shown first: SSL stripping removes the padlock without you noticing</div>
+      <div class="browser-mock">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="browser-dot" style="background:#ff5f57"></div><div class="browser-dot" style="background:#febc2e"></div><div class="browser-dot" style="background:#28c840"></div></div>
+          <div class="browser-url-bar"><span class="lock-icon unsafe">⚠</span> http://onlinebanking-secure.com/login</div>
+        </div>
+        <div class="browser-content">
+          <div class="ssl-warning">⚠ Your connection to this site is not private. Information you submit could be intercepted.</div>
+          <div style="text-align:center;padding:1rem">
+            <div style="font-size:1.1rem;font-weight:700;margin-bottom:1rem">Secure Online Banking</div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem;max-width:280px;margin:0 auto">
+              <input style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:0.5rem;color:var(--text);margin-bottom:0.5rem;font-family:inherit" placeholder="Username" disabled/>
+              <input style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:0.5rem;color:var(--text);margin-bottom:0.75rem;font-family:inherit" placeholder="Password" type="password" disabled/>
+              <div style="background:var(--blue);color:white;padding:0.5rem;border-radius:4px;text-align:center;font-size:0.85rem;font-weight:700">Sign In</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem">👆 You need to check your bank balance. What do you do?</p>
+    `,
+    choices: [
+      { text: 'Log in, the page says Secure Online Banking and looks like my bank', correct: false, type: 'wrong', feedback: 'Two critical warning signs are present. First, the URL starts with http:// not https://, there is no encryption, meaning your password is sent in plain readable text across the network. Second, the domain is onlinebanking-secure.com, not your actual bank\'s domain. The word "secure" in a domain name means nothing. Always check the padlock and the exact domain.' },
+      { text: 'Stop immediately, the URL is http:// not https:// and the domain is not my real bank', correct: true, type: 'correct', feedback: 'Correct. You spotted both red flags. No legitimate bank uses unencrypted HTTP for login pages. The missing padlock and the suspicious domain confirm this is either a phishing site or an SSL stripping attack. Close the tab and navigate to your bank\'s real address by typing it yourself.' },
+      { text: 'Refresh the page to see if the padlock appears', correct: false, type: 'neutral', feedback: 'The missing padlock is not a loading issue, it is a security issue. Refreshing will not add encryption. Close the tab and type your bank\'s real web address manually in a fresh tab. Never reuse the same tab that showed a security warning.' },
+    ],
+    points: 30,
+  },
+];
+
+let current = 0;
+let sessionCorrect = 0;
+let sessionScore = 0;
+let answered = false;
+
+function startModule() {
+  AnxietyRegulation.resetStreak();
+  document.getElementById('module-intro').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'block';
+  document.getElementById('scenario-area').style.display = 'block';
+  current = CyberGuard.getModuleProgress('malvertising');
+  if (current >= scenarios.length) { showCompletion(); return; }
+  render();
+}
+
+function render() {
+  if (current >= scenarios.length) { showCompletion(); return; }
+  answered = false;
+  const sc = scenarios[current];
+  document.getElementById('progress-bar').style.width = ((current / scenarios.length) * 100) + '%';
+  document.getElementById('toolbar-label').textContent = sc.toolbar;
+  document.getElementById('scenario-body').innerHTML = sc.render();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'choices';
+  sc.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-num">${String.fromCharCode(65+i)}</span><span>${c.text}</span>`;
+    btn.addEventListener('click', () => answer(c, btn, sc));
+    wrap.appendChild(btn);
+  });
+  document.getElementById('scenario-body').appendChild(wrap);
+
+  AnxietyRegulation.injectReappraisal(wrap);
+
+  const bodyEl = document.getElementById('scenario-body');
+  bodyEl.insertAdjacentHTML('afterbegin', AnxietyRegulation.getDifficultyBadge('malvertising', current));
+
+  const meterHTML = AnxietyRegulation.getConfidenceMeter('malvertising');
+  if (meterHTML) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = meterHTML;
+    const meterEl = tempDiv.firstElementChild;
+    if (meterEl) bodyEl.insertBefore(meterEl, wrap);
+  }
+
+  document.getElementById('feedback').className = 'feedback-box';
+  document.getElementById('guidance-box').style.display = 'none';
+  document.getElementById('nav-row').style.display = 'none';
+}
+
+function answer(choice, btn, sc) {
+  if (answered) return;
+  answered = true;
+  btn.classList.add(choice.type);
+  document.querySelectorAll('.choice-btn').forEach(b => b.style.pointerEvents = 'none');
+
+  let pts = 0;
+  if (choice.correct) {
+    pts = sc.points;
+    sessionScore += pts;
+    sessionCorrect++;
+    CyberGuard.addScore(pts);
+    CyberGuard.recordAnswer(true);
+    AnxietyRegulation.recordResult(true);
+  } else {
+    CyberGuard.recordAnswer(false);
+    AnxietyRegulation.recordResult(false);
+  }
+  document.getElementById('session-score').textContent = sessionScore;
+  CyberGuard.refreshNavScore();
+  CyberGuardAuth.init();
+  AnxietyRegulation.showStreakBanner();
+
+  const fb = document.getElementById('feedback');
+  fb.className = `feedback-box show ${choice.correct ? 'good' : choice.type === 'neutral' ? 'info' : 'bad'}`;
+  fb.innerHTML = `<div class="feedback-title">${choice.correct ? '✓ Good call' : choice.type === 'neutral' ? '△ Almost, here\'s the full picture' : '✗ This one got you, here\'s why'} ${pts>0?`<span style="float:right;font-weight:400;color:var(--amber)">+${pts} pts</span>`:''}</div>${choice.feedback}`;
+
+  if (!choice.correct) {
+    const g = CyberGuard.getGuidance('breathe');
+    const gb = document.getElementById('guidance-box');
+    gb.style.display = 'block';
+    gb.innerHTML = AnxietyRegulation.getReassuranceMessage() +
+      `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
+  } else {
+    const g = CyberGuard.getGuidance('confident');
+    const gb = document.getElementById('guidance-box');
+    gb.style.display = 'block';
+    gb.innerHTML = `<h3>${g.icon} ${g.title}</h3><p>${g.body}</p>`;
+  }
+  document.getElementById('nav-row').style.display = 'flex';
+}
+
+function nextScenario() {
+  current++;
+  CyberGuard.saveModuleProgress('malvertising', current);
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showCompletion() {
+  ['scenario-area','progress-wrap'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('guidance-box').style.display = 'none';
+  document.getElementById('nav-row').style.display = 'none';
+  document.getElementById('completion').style.display = 'block';
+  document.getElementById('final-correct').textContent = sessionCorrect;
+  CyberGuard.markChallengeComplete('malvertising');
+}
+
+CyberGuard.refreshNavScore();
+AnxietyRegulation.DIFFICULTY['malvertising'] = ['easy','medium','medium','hard'];
+const savedProgress = CyberGuard.getModuleProgress('malvertising');
+const alreadyComplete = CyberGuard.getState().challengesCompleted.includes('malvertising');
+if (alreadyComplete) { document.getElementById('module-intro').style.display = 'none'; showCompletion(); }
+else if (savedProgress > 0) { startModule(); }
+</script>
+</body>
+</html>
