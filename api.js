@@ -1,21 +1,18 @@
-// ═══════════════════════════════════════════════════════════════
-// CyberGuard, Frontend API Client
+// CyberGuard Frontend API Client
 // Handles all communication with the Node.js backend.
 // Falls back gracefully if the backend is unavailable so the
 // platform remains fully functional in guest (offline) mode.
-// ═══════════════════════════════════════════════════════════════
 
 const CyberGuardAPI = (() => {
 
-  // Update this to your Railway deployment URL after deploying
   const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://cyberguard-backend.up.railway.app'; // Update after Railway deploy
+    : 'https://cyberguard-backend-production.up.railway.app';
 
   const TOKEN_KEY = 'cg_auth_token';
   const USER_KEY  = 'cg_user';
 
-  // ── Token management ─────────────────────────────────────────
+  // Token management
   function getToken() {
     try { return localStorage.getItem(TOKEN_KEY); } catch { return null; }
   }
@@ -38,7 +35,7 @@ const CyberGuardAPI = (() => {
 
   function isLoggedIn() { return !!getToken(); }
 
-  // ── HTTP helpers ─────────────────────────────────────────────
+  // HTTP helpers
   async function request(method, path, body, requiresAuth = false) {
     const headers = { 'Content-Type': 'application/json' };
     if (requiresAuth) {
@@ -58,7 +55,7 @@ const CyberGuardAPI = (() => {
     return data;
   }
 
-  // ── Auth ─────────────────────────────────────────────────────
+  // Auth
   async function register(email, password, displayName) {
     const data = await request('POST', '/api/register', { email, password, display_name: displayName });
     setToken(data.token);
@@ -77,7 +74,7 @@ const CyberGuardAPI = (() => {
     clearToken();
   }
 
-  // ── Results ──────────────────────────────────────────────────
+  // Results
   async function saveResults(state) {
     if (!isLoggedIn()) return null;
 
@@ -87,7 +84,7 @@ const CyberGuardAPI = (() => {
       total_score:       state.score,
       accuracy:          CyberGuard.getAccuracy(),
       modules_completed: state.challengesCompleted.length,
-      module_results:    [] // Populated from module progress if available
+      module_results:    []
     };
 
     return await request('POST', '/api/results', payload, true);
@@ -106,7 +103,7 @@ const CyberGuardAPI = (() => {
     return await request('GET', '/api/leaderboard');
   }
 
-  // ── Health check ─────────────────────────────────────────────
+  // Health check
   async function checkBackend() {
     try {
       await request('GET', '/api/health');
