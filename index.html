@@ -75,7 +75,7 @@
   </style>
 </head>
 <body>
-
+ 
 <nav>
   <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
   <ul class="nav-links">
@@ -92,7 +92,7 @@
   <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
-
+ 
 <!-- HERO -->
 <section class="hero">
   <span class="hero-tag">Free · No account needed · Takes about 25 minutes</span>
@@ -104,18 +104,18 @@
   <p class="hero-sub">
     CyberGuard is a free training tool that helps you recognise online scams and feel less anxious about them, through short, realistic practice scenarios. No technical knowledge needed.
   </p>
-
+ 
   <div class="no-jargon-banner">
     <strong>No experience needed.</strong> Every term is explained as you go. If you've ever felt unsure about clicking a link or replying to a suspicious message, this is for you.
   </div>
-
+ 
   <div class="hero-features">
     <div class="feat"><div class="feat-dot"></div> Spot fake emails</div>
     <div class="feat"><div class="feat-dot"></div> Protect your passwords</div>
     <div class="feat"><div class="feat-dot"></div> Recognise scam calls and messages</div>
     <div class="feat"><div class="feat-dot"></div> Feel calmer and more in control</div>
   </div>
-
+ 
   <!-- Pre-assessment card -->
   <div class="anxiety-card" id="pre-assessment">
     <h3>📊 First: How anxious do you feel online right now?</h3>
@@ -129,10 +129,10 @@
       <a href="challenges.html" class="btn btn-primary" id="start-btn">Start Training →</a>
     </div>
   </div>
-
+ 
   <div class="scroll-hint">↓ scroll to learn more</div>
 </section>
-
+ 
 <!-- ABOUT -->
 <section class="about-section">
   <div>
@@ -173,7 +173,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- HOW IT WORKS -->
 <section class="how-section">
   <h2>How it works, 4 simple steps</h2>
@@ -200,7 +200,7 @@
     </div>
   </div>
 </section>
-
+ 
 <script src="app.js"></script>
 <script src="api.js"></script>
 <script src="auth.js"></script>
@@ -218,10 +218,10 @@
     });
     scale.appendChild(btn);
   }
-
+ 
   CyberGuard.refreshNavScore();
   CyberGuardAuth.init();
-
+ 
   function toggleTheme() {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const next = isLight ? 'dark' : 'light';
@@ -234,7 +234,7 @@
     document.documentElement.setAttribute('data-theme', 'light');
     document.getElementById('theme-btn').textContent = '☀️';
   }
-
+ 
   const s = CyberGuard.getState();
   if (s.preAnxiety !== null) {
     document.getElementById('start-row').style.display = 'block';
