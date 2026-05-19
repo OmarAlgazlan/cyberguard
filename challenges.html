@@ -188,6 +188,19 @@
 <script src="auth.js"></script>
 <script src="breathing.js"></script>
 <script>
+  // Hard gate: redirect immediately before anything renders
+  // if pre-anxiety has not been set. This fires before DOM interaction.
+  (function() {
+    try {
+      const raw = sessionStorage.getItem('cyberguard_state');
+      const state = raw ? JSON.parse(raw) : null;
+      if (!state || state.preAnxiety === null || state.preAnxiety === undefined) {
+        window.location.replace('index.html');
+      }
+    } catch(e) {
+      window.location.replace('index.html');
+    }
+  })();
   CyberGuard.refreshNavScore();
   CyberGuardAuth.init();
 
