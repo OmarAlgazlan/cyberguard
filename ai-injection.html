@@ -46,6 +46,10 @@
     .enum-body { padding: 1.25rem; }
     .error-msg { background: rgba(255,59,59,0.08); border: 1px solid rgba(255,59,59,0.25); border-radius: 4px; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--red); margin-bottom: 0.75rem; }
     .success-msg { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.25); border-radius: 4px; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--green); margin-bottom: 0.75rem; }
+    .hint-toggle { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 0.78rem; font-family: 'Space Mono', monospace; text-decoration: underline; margin-top: 0.5rem; padding: 0; }
+    .hint-toggle:hover { color: var(--text-muted); }
+    .hint-box { display: none; margin-top: 0.5rem; background: rgba(88,166,255,0.05); border: 1px solid rgba(88,166,255,0.15); border-radius: 4px; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .hint-box.show { display: block; }
   </style>
 </head>
 <body>
@@ -188,6 +192,7 @@ const scenarios = [
       { text: 'Refuse to provide the details, an AI summariser has no reason to ask for personal information', correct: true, type: 'correct', feedback: 'Correct. You recognised that this request is completely outside the scope of what you asked the AI to do. A document summariser asking for your National Insurance number is a red flag that the AI has been manipulated by hidden instructions in the document. Report the PDF as suspicious and do not open it again.' },
       { text: 'Ask the AI why it needs this information before deciding', correct: false, type: 'neutral', feedback: 'Better than immediately providing the data. But the AI cannot give you a trustworthy answer because it has already been compromised by the injection. A manipulated AI will simply justify the request convincingly. The safest action is to refuse entirely and treat the PDF as malicious.' },
     ],
+    hint: 'Think about what you actually asked the AI to do. Does summarising a contract require your National Insurance number? What kind of content might have been hidden inside that PDF?',
     points: 20,
   },
   {
@@ -220,6 +225,7 @@ const scenarios = [
       { text: 'Refuse and contact TechStore through their official website or phone number instead', correct: true, type: 'correct', feedback: 'Correct. A chatbot asking for card details unprompted during an order tracking conversation is not normal behaviour. This is a sign the AI has been manipulated. Contact the company through their official verified contact details, not through the chatbot that is behaving unexpectedly.' },
       { text: 'Only provide the postcode but not the card digits', correct: false, type: 'neutral', feedback: 'Partial information is still information an attacker can use. Even a postcode combined with other data can help an attacker build a profile. The safest response is to provide nothing and verify through official channels.' },
     ],
+    hint: 'You only asked the chatbot to track an order. Does tracking an order require payment card details? Think about whether this request fits the task you gave the chatbot.',
     points: 25,
   },
   {
@@ -249,6 +255,7 @@ const scenarios = [
       { text: 'Change both error messages to the same generic message: "Incorrect email or password"', correct: true, type: 'correct', feedback: 'Correct. A single generic error message prevents attackers from learning whether an email address is registered. This is standard secure login design practice. Account recovery is handled separately through password reset flows that do not publicly confirm account existence.' },
       { text: 'Add a CAPTCHA to slow down attackers without changing the error messages', correct: false, type: 'neutral', feedback: 'A CAPTCHA would slow automated enumeration but does not stop manual testing. The root cause is the different error messages. A CAPTCHA on top of specific messages still leaks the information, just more slowly. Fixing the messages is the correct solution.' },
     ],
+    hint: 'Compare what the two error messages tell an attacker about each email address. What does "no account found" reveal that "incorrect password" does not?',
     points: 25,
   },
   {
@@ -276,6 +283,7 @@ const scenarios = [
       { text: 'Use the account recovery process to reset your password immediately, then enable MFA', correct: true, type: 'correct', feedback: 'Correct. This is an account lockout attack, someone is deliberately triggering your security lockout. Whether this is a denial of service (just locking you out) or a genuine attempt to guess your password, the right response is the same: reset your password through official recovery, enable MFA, and check haveibeenpwned.com to see if your credentials were leaked.' },
       { text: 'Ignore it, the lockout protection is working and they cannot get in', correct: false, type: 'neutral', feedback: 'The lockout did protect you this time. But ignoring it means your password is still the same compromised one. If the attacker got your password from a data breach, they will try again after the lockout expires. Reset your password and enable MFA to close the vulnerability permanently.' },
     ],
+    hint: 'Notice that 0 of the login attempts came from your IP. Someone else is doing this. Does waiting for the lockout to expire actually fix the underlying problem?',
     points: 30,
   },
 ];
@@ -312,6 +320,18 @@ function render() {
     btn.addEventListener('click', () => answer(c, btn, sc));
     wrap.appendChild(btn);
   });
+  const hintEl = document.createElement('button');
+  hintEl.className = 'hint-toggle';
+  hintEl.textContent = '💡 Need a hint?';
+  hintEl.onclick = toggleHint;
+  document.getElementById('scenario-body').appendChild(hintEl);
+
+  const hintBox = document.createElement('div');
+  hintBox.className = 'hint-box';
+  hintBox.id = 'hint-box';
+  hintBox.textContent = sc.hint;
+  document.getElementById('scenario-body').appendChild(hintBox);
+
   document.getElementById('scenario-body').appendChild(wrap);
 
   AnxietyRegulation.injectReappraisal(wrap);
@@ -330,6 +350,11 @@ function render() {
   document.getElementById('feedback').className = 'feedback-box';
   document.getElementById('guidance-box').style.display = 'none';
   document.getElementById('nav-row').style.display = 'none';
+}
+
+function toggleHint() {
+  const hb = document.getElementById('hint-box');
+  if (hb) hb.classList.toggle('show');
 }
 
 function answer(choice, btn, sc) {

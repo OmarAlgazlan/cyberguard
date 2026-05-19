@@ -1,8 +1,6 @@
-// ═══════════════════════════════════════════════════════════════
-// CyberGuard, Auth UI Module
+// CyberGuard Auth UI Module
 // Handles login/register modal, nav bar user state,
 // and result saving on session completion.
-// ═══════════════════════════════════════════════════════════════
 
 const CyberGuardAuth = (() => {
 
@@ -203,7 +201,15 @@ const CyberGuardAuth = (() => {
       authBtn.textContent = user.display_name;
       authBtn.style.color = 'var(--green)';
       authBtn.onclick = () => {
-        if (confirm('Sign out?')) { CyberGuardAPI.logout(); updateNavBar(); }
+        if (confirm('Sign out?')) {
+          CyberGuardAPI.logout();
+          // Reset session state on logout so a new session starts
+          // with a clean score. Without this, the previous session's
+          // score persisted in sessionStorage across login/logout cycles.
+          CyberGuard.resetState();
+          CyberGuard.refreshNavScore();
+          updateNavBar();
+        }
       };
     } else {
       authBtn.textContent = 'Save Progress';

@@ -43,6 +43,10 @@
     .redirect-url .safe-part { color: var(--green); }
     .redirect-url .danger-part { color: var(--red); }
     .attack-first-banner { background: rgba(227,179,65,0.08); border: 1px solid rgba(227,179,65,0.2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.82rem; color: var(--amber); display: flex; align-items: center; gap: 0.5rem; }
+    .hint-toggle { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 0.78rem; font-family: 'Space Mono', monospace; text-decoration: underline; margin-top: 0.5rem; padding: 0; }
+    .hint-toggle:hover { color: var(--text-muted); }
+    .hint-box { display: none; margin-top: 0.5rem; background: rgba(88,166,255,0.05); border: 1px solid rgba(88,166,255,0.15); border-radius: 4px; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .hint-box.show { display: block; }
   </style>
 </head>
 <body>
@@ -180,6 +184,7 @@ const scenarios = [
       { text: 'Ignore the ad and close it, if I am worried I will open Windows Defender directly from the Start menu', correct: true, type: 'correct', feedback: 'Correct. Legitimate security software never communicates through third-party website ads. If you want to check your PC for viruses, open your actual security software directly. The ad is the attack, not a warning about one.' },
       { text: 'Right-click the ad to inspect where it actually links to', correct: false, type: 'neutral', feedback: 'Investigating is better than clicking blindly, but inspecting a malicious ad can sometimes trigger the attack in certain browsers. The safest response is always to ignore and close. If you are worried about your PC, check your actual security software directly.' },
     ],
+    hint: 'Ask yourself: does Windows Defender communicate through ads on news websites? Think about where legitimate security software actually shows its alerts.',
     points: 20,
   },
   {
@@ -203,6 +208,7 @@ const scenarios = [
       { text: 'Do not click it, the destination after q= is a suspicious Russian domain unrelated to Google', correct: true, type: 'correct', feedback: 'Correct. You identified the open redirect. The google.com part is bait. The actual destination is steal-your-login.ru. This technique exploits the trust people have in recognisable domain names by hiding the real destination in a redirect parameter.' },
       { text: 'Copy just the google.com part and navigate there manually', correct: false, type: 'neutral', feedback: 'Better than clicking the full link. But the correct action is to recognise the open redirect and delete the entire link. If you need to go to Google, type google.com yourself in a fresh tab.' },
     ],
+    hint: 'Read the full URL carefully, not just the beginning. What comes after the q= parameter is where you will actually end up. The country-code at the end of the domain is also a clue.',
     points: 25,
   },
   {
@@ -238,6 +244,7 @@ const scenarios = [
       { text: 'Notice this is not the official VLC website (videolan.org) and go there directly instead', correct: true, type: 'correct', feedback: 'Correct. The official VLC website is videolan.org. Any other domain claiming to offer VLC for free is a third-party site that may bundle malware. Always download software directly from the official developer website, not from third-party download portals.' },
       { text: 'Use the smaller direct download link instead of the big button', correct: false, type: 'neutral', feedback: 'Avoiding the big fake button shows good instinct. But even the direct link on a third-party site may deliver a modified version of the software. The only safe source for VLC is videolan.org. Never download software from sites you did not actively navigate to.' },
     ],
+    hint: 'Check the URL in the browser bar. What is the official website of VLC? Is this it? Also notice what the download button label says in small text.',
     points: 25,
   },
   {
@@ -270,6 +277,7 @@ const scenarios = [
       { text: 'Stop immediately, the URL is http:// not https:// and the domain is not my real bank', correct: true, type: 'correct', feedback: 'Correct. You spotted both red flags. No legitimate bank uses unencrypted HTTP for login pages. The missing padlock and the suspicious domain confirm this is either a phishing site or an SSL stripping attack. Close the tab and navigate to your bank\'s real address by typing it yourself.' },
       { text: 'Refresh the page to see if the padlock appears', correct: false, type: 'neutral', feedback: 'The missing padlock is not a loading issue, it is a security issue. Refreshing will not add encryption. Close the tab and type your bank\'s real web address manually in a fresh tab. Never reuse the same tab that showed a security warning.' },
     ],
+    hint: 'Look at two things in the browser bar: the protocol at the very start of the URL, and the actual domain name. Does your real bank use this domain?',
     points: 30,
   },
 ];
@@ -306,6 +314,18 @@ function render() {
     btn.addEventListener('click', () => answer(c, btn, sc));
     wrap.appendChild(btn);
   });
+  const hintEl = document.createElement('button');
+  hintEl.className = 'hint-toggle';
+  hintEl.textContent = '💡 Need a hint?';
+  hintEl.onclick = toggleHint;
+  document.getElementById('scenario-body').appendChild(hintEl);
+
+  const hintBox = document.createElement('div');
+  hintBox.className = 'hint-box';
+  hintBox.id = 'hint-box';
+  hintBox.textContent = sc.hint;
+  document.getElementById('scenario-body').appendChild(hintBox);
+
   document.getElementById('scenario-body').appendChild(wrap);
 
   AnxietyRegulation.injectReappraisal(wrap);
@@ -324,6 +344,11 @@ function render() {
   document.getElementById('feedback').className = 'feedback-box';
   document.getElementById('guidance-box').style.display = 'none';
   document.getElementById('nav-row').style.display = 'none';
+}
+
+function toggleHint() {
+  const hb = document.getElementById('hint-box');
+  if (hb) hb.classList.toggle('show');
 }
 
 function answer(choice, btn, sc) {
