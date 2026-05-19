@@ -60,7 +60,7 @@
   </style>
 </head>
 <body>
-
+ 
 <nav>
   <a class="nav-logo" href="index.html">Cyber<span>Guard</span></a>
   <ul class="nav-links">
@@ -77,18 +77,18 @@
   <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
-
+ 
 <div class="page">
   <div class="page-header">
     <div class="page-tag">Evaluation</div>
     <h1>Your Training Results</h1>
     <p>This page shows your performance across all modules and, most importantly, your anxiety change before and after the training.</p>
   </div>
-
+ 
   <div class="incomplete-warning" id="incomplete-warning">
     ⚠ You haven't completed all challenge modules yet. <a href="challenges.html" style="color:var(--amber)">Return to challenges</a> to complete all three before viewing full results.
   </div>
-
+ 
   <!-- Post-anxiety gate -->
   <div class="post-gate" id="post-gate">
     <h3>📊 Final Step: Post-Assessment Rating</h3>
@@ -102,16 +102,16 @@
       <button class="btn btn-primary" onclick="showResults()">See My Results →</button>
     </div>
   </div>
-
+ 
   <!-- Results (shown after post-rating) -->
   <div class="results-wrap" id="results-wrap">
-
+ 
     <!-- Delta / headline -->
     <div class="delta-card" id="delta-card">
       <div class="delta-num" id="delta-num">+0</div>
       <div class="delta-label">Anxiety reduction score (pre minus post, higher is better)</div>
     </div>
-
+ 
     <!-- Anxiety comparison -->
     <div class="result-section">
       <h3>Anxiety Before vs After</h3>
@@ -129,7 +129,7 @@
         <p id="anxiety-interpretation" style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem;line-height:1.6;"></p>
       </div>
     </div>
-
+ 
     <!-- Score stats -->
     <div class="result-section">
       <h3>Performance Summary</h3>
@@ -152,7 +152,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Module breakdown -->
     <div class="result-section">
       <h3>Module Breakdown</h3>
@@ -183,7 +183,7 @@
         </tr>
       </table>
     </div>
-
+ 
     <!-- Guidance -->
     <div class="result-section">
       <h3>Anxiety Reduction Guidance</h3>
@@ -198,7 +198,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Share / reset -->
     <div id="save-results-prompt" style="display:none;background:rgba(31,111,235,0.07);
      border:1px solid rgba(31,111,235,0.2);border-radius:8px;padding:1.25rem;margin-bottom:1.5rem;text-align:center">
@@ -217,7 +217,7 @@
     </div>
   </div>
 </div>
-
+ 
 <script src="app.js"></script>
 <script src="api.js"></script>
 <script src="auth.js"></script>
@@ -225,7 +225,7 @@
 <script>
   CyberGuard.refreshNavScore();
   CyberGuardAuth.init();
-
+ 
   function toggleTheme() {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const next = isLight ? 'dark' : 'light';
@@ -238,13 +238,13 @@
     document.documentElement.setAttribute('data-theme', 'light');
     document.getElementById('theme-btn').textContent = '☀️';
   }
-
+ 
   const s = CyberGuard.getState();
-
+ 
   // Check completion
   const allDone = s.challengesCompleted.length === 3;
   if (!allDone) document.getElementById('incomplete-warning').style.display = 'block';
-
+ 
   // Module status cells
   ['phishing','password','social'].forEach(id => {
     const done = s.challengesCompleted.includes(id);
@@ -252,7 +252,7 @@
       ? '<span class="text-green">✓ Complete</span>'
       : '<span class="text-muted">○ Incomplete</span>';
   });
-
+ 
   // ── Pre-results breathing exercise ──────────────────────────────
   // Triggered before the post-assessment gate or results are shown.
   // Uses the 'results' context which has a score-reframing message.
@@ -267,7 +267,7 @@
     }
     // Otherwise the post-gate is already visible, user rates anxiety then sees results
   });
-
+ 
   // Build post-scale
   const postScale = document.getElementById('post-scale');
   for (let i = 1; i <= 10; i++) {
@@ -282,25 +282,25 @@
     });
     postScale.appendChild(btn);
   }
-
+ 
   function showResults() {
     document.getElementById('post-gate').style.display = 'none';
     renderResults();
   }
-
+ 
   function renderResults() {
     document.getElementById('results-wrap').style.display = 'block';
     const st = CyberGuard.getState();
-
+ 
     const pre = st.preAnxiety || 5;
     const post = st.postAnxiety || 5;
     const delta = pre - post;
-
+ 
     document.getElementById('val-before').textContent = pre;
     document.getElementById('val-after').textContent = post;
     document.getElementById('bar-before').style.width = (pre * 10) + '%';
     document.getElementById('bar-after').style.width = (post * 10) + '%';
-
+ 
     const dEl = document.getElementById('delta-num');
     if (delta > 0) {
       dEl.textContent = '-' + delta;
@@ -314,21 +314,21 @@
       dEl.textContent = '0';
       dEl.style.color = 'var(--text-muted)';
     }
-
+ 
     let interp = '';
     if (delta >= 3) interp = `Your anxiety decreased by ${delta} points, a significant improvement consistent with the experiential exposure effect documented in behavioural cybersecurity literature.`;
     else if (delta > 0) interp = `Your anxiety decreased by ${delta} point(s). Even small reductions are meaningful, anxiety reduction through exposure is cumulative across multiple sessions.`;
     else if (delta === 0) interp = `Your anxiety rating stayed the same. This is common in a single session, the benefit often becomes apparent after repeated exposure and reflection.`;
     else interp = `Your anxiety rating increased by ${Math.abs(delta)} point(s). This can happen when challenges surface previously unrecognised risks, awareness is the first stage of confidence-building.`;
     document.getElementById('anxiety-interpretation').textContent = interp;
-
+ 
     CyberGuard.animateValue(document.getElementById('stat-score'), 0, st.score, 800);
     document.getElementById('stat-accuracy').textContent = CyberGuard.getAccuracy() + '%';
     document.getElementById('stat-modules').textContent = st.challengesCompleted.length + '/3';
     document.getElementById('stat-correct').textContent = st.correctAnswers;
-
+ 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
+ 
     // Offer to save results if not logged in
     if (!CyberGuardAPI.isLoggedIn()) {
       setTimeout(() => {
@@ -342,7 +342,7 @@
       }).catch(console.error);
     }
   }
-
+ 
   function resetAndStart() {
     CyberGuard.resetState();
     window.location.href = 'index.html';
@@ -350,3 +350,4 @@
 </script>
 </body>
 </html>
+ 
