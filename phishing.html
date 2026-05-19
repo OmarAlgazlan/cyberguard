@@ -78,6 +78,13 @@
     .flag-item.revealed { color: var(--red); }
     .flag-bullet { color: var(--text-dim); flex-shrink: 0; margin-top: 2px; }
     .flag-item.revealed .flag-bullet { color: var(--red); }
+    .rf-tag { display: inline-block; background: rgba(255,59,59,0.12); border: 1px solid rgba(255,59,59,0.4); border-radius: 3px; padding: 0 3px; cursor: pointer; position: relative; transition: background 0.2s; }
+    .rf-tag:hover, .rf-tag.active { background: rgba(255,59,59,0.22); }
+    .rf-tooltip { display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid rgba(255,59,59,0.4); border-radius: 6px; padding: 0.6rem 0.75rem; font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; width: 220px; z-index: 50; pointer-events: none; animation: fadeIn 0.2s ease; }
+    .rf-tag.active .rf-tooltip { display: block; }
+    .rf-reveal-prompt { font-size: 0.78rem; color: var(--red); font-family: 'Space Mono', monospace; margin-top: 0.6rem; animation: pulse 2s infinite; }
+    .rf-complete { font-size: 0.78rem; color: var(--green); font-family: 'Space Mono', monospace; margin-top: 0.6rem; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
   </style>
 </head>
 <body>
@@ -503,6 +510,74 @@ function answer(choice, btn) {
   }
 
   document.getElementById('nav-row').style.display = 'flex';
+
+  // Red flag reveal: on scenario 1 only, annotate the email body
+  // with interactive tooltips showing each suspicious element.
+  // Grounded in cognitive reappraisal (Gross, 2002): active scanning
+  // of threat cues after the decision reinforces recognition patterns.
+  if (current === 0) {
+    injectRedFlagReveal();
+  }
+}
+
+const RF_FLAGS = [
+  { selector: 'suspicious', tip: '🚩 Fake domain: natwest-account-alert.com is not natwest.com. Always check after the @ symbol.' },
+  { match: 'unusual activity', tip: '🚩 Vague threat: no specific transaction named. Real banks give you details to verify.' },
+  { match: '24 hours', tip: '🚩 Artificial deadline: pressure tactic to stop you thinking. Real banks do not close accounts in 24 hours.' },
+  { match: 'Verify My Account', tip: '🚩 Suspicious CTA: this link would go to a fake site, not natwest.com. Never click email links.' },
+];
+
+function injectRedFlagReveal() {
+  const emailBody = document.querySelector('.email-body');
+  const emailHeader = document.querySelector('.email-field-val.suspicious');
+  if (!emailBody) return;
+
+  let rfFound = 0;
+  let rfRevealed = 0;
+  const total = 4;
+
+  // Wrap the suspicious sender
+  if (emailHeader) {
+    rfFound++;
+    const original = emailHeader.innerHTML;
+    emailHeader.innerHTML = '';
+    const tag = document.createElement('span');
+    tag.className = 'rf-tag';
+    tag.innerHTML = original + `<span class="rf-tooltip">${RF_FLAGS[0].tip}</span>`;
+    tag.onclick = () => { tag.classList.toggle('active'); if (tag.classList.contains('active')) { rfRevealed++; checkAllRevealed(rfRevealed, total, prompt); } };
+    emailHeader.appendChild(tag);
+  }
+
+  // Wrap body matches
+  let html = emailBody.innerHTML;
+  [
+    { match: 'unusual activity', tip: RF_FLAGS[1].tip },
+    { match: '24 hours', tip: RF_FLAGS[2].tip },
+    { match: 'Verify My Account Now', tip: RF_FLAGS[3].tip },
+  ].forEach(({ match, tip }) => {
+    if (html.includes(match)) {
+      rfFound++;
+      html = html.replace(match,
+        `<span class="rf-tag" onclick="this.classList.toggle('active');rfRevealCount()">${match}<span class="rf-tooltip">${tip}</span></span>`
+      );
+    }
+  });
+  emailBody.innerHTML = html;
+
+  // Add prompt below the email
+  const prompt = document.createElement('div');
+  prompt.className = 'rf-reveal-prompt';
+  prompt.id = 'rf-prompt';
+  prompt.textContent = '🔍 Tap the highlighted elements to reveal each red flag.';
+  emailBody.parentElement.after(prompt);
+
+  window.rfRevealCount = function() {
+    const active = document.querySelectorAll('.rf-tag.active').length;
+    if (active >= 3) {
+      const p = document.getElementById('rf-prompt');
+      if (p) { p.className = 'rf-complete'; p.textContent = '✅ All red flags found. You can now see exactly how this attack was built.'; }
+    }
+  };
 }
 
 function nextScenario() {
