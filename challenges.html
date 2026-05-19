@@ -207,18 +207,19 @@
 
   const s = CyberGuard.getState();
 
-  // Gate: if no pre-anxiety rating, block all challenge cards and force return to index
+  // Gate: if no pre-anxiety rating, block all challenge cards
   if (s.preAnxiety === null) {
     document.getElementById('no-baseline-warning').style.display = 'block';
-    // Disable all challenge card links
+    document.getElementById('no-baseline-warning').innerHTML = '⚠ You need to complete your anxiety rating before starting. This takes 10 seconds and is required for your evaluation. <a href="index.html" style="color:var(--red);font-weight:700;text-decoration:underline">Click here to rate your anxiety first →</a>';
+    // Block all challenge card clicks with preventDefault
     document.querySelectorAll('.challenge-card').forEach(card => {
-      card.style.pointerEvents = 'none';
-      card.style.opacity = '0.4';
-      card.removeAttribute('href');
+      card.style.opacity = '0.35';
+      card.style.cursor = 'not-allowed';
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'index.html';
+      });
     });
-    // Add a prominent redirect button inside the warning
-    const warn = document.getElementById('no-baseline-warning');
-    warn.innerHTML = '⚠ You need to complete your anxiety rating before starting. This takes 10 seconds and is required for the evaluation. <a href="index.html" style="color:var(--red);font-weight:700;text-decoration:underline">Click here to go back and rate your anxiety →</a>';
   }
 
   // Progress checks
