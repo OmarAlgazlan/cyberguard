@@ -60,37 +60,60 @@
            font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
     Save Progress
   </button>
+  <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
-</nav>
-
-<div class="page">
-  <div class="page-header">
-    <div class="page-tag">Module 3, Scam Calls and Messages</div>
     <h1>Social Engineering</h1>
     <p>Learn to spot when someone is trying to manipulate you, online, on the phone, or in person.</p>
   </div>
 
   <!-- Intro screen -->
-  <div id="module-intro" class="module-intro">
-    <div class="big-icon">🎭</div>
-    <h2>What is social engineering?</h2>
-    <div class="plain-explainer">
-      <h4>🗣️ Plain English explanation</h4>
-      <p><strong>Social engineering</strong> means tricking a person rather than hacking a computer. Instead of breaking into a system technically, attackers manipulate your emotions, fear, urgency, trust, helpfulness, to get you to do what they want. Scam phone calls, fake messages from "your bank", emails pretending to be your boss, these are all social engineering.</p>
+  <div id="module-intro" class="module-intro" style="text-align:left;max-width:700px">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div class="big-icon">🎭</div>
+      <h2>What is social engineering?</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;max-width:520px;margin:0 auto"><strong>Social engineering</strong> means tricking a person rather than hacking a computer. Attackers manipulate your emotions, such as fear, urgency, and trust, to get you to act without thinking.</p>
     </div>
-    <div class="plain-explainer">
+
+    <div class="plain-explainer" style="margin-bottom:1rem">
       <h4>😰 Why it makes us anxious</h4>
-      <p>These attacks work by putting you under pressure. "Act now or your account closes." "It's urgent." "I'm from the fraud team." That panic is deliberate. The moment you feel urgency from an unexpected contact, that's your signal to slow down, not speed up.</p>
+      <p>These attacks work by putting you under pressure. "Act now or your account closes." That panic is deliberate. The moment you feel urgency from an unexpected contact, that is your signal to slow down, not speed up.</p>
     </div>
-    <div class="plain-explainer">
-      <h4>🛡️ The one rule that stops almost all of them</h4>
-      <p>Always verify through a separate channel. If someone calls claiming to be your bank, hang up and call the number on the back of your card. If you get a message from a family member asking for money, call their real number first. This one habit protects you from almost every social engineering attack.</p>
+
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.25rem">
+      <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0.6rem 1rem;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-muted);display:flex;align-items:center;gap:0.5rem">
+        <span style="color:var(--green)">●</span>
+        <span style="margin-left:0.5rem">💬 Messages, Mum</span>
+        <span style="margin-left:auto;background:rgba(88,166,255,0.1);color:var(--blue-bright);padding:0.15rem 0.5rem;border-radius:3px;font-size:0.65rem">EXAMPLE: SPOT THE MANIPULATION</span>
+      </div>
+      <div style="padding:1.25rem">
+        <div style="display:flex;flex-direction:column;gap:0.75rem">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 2px;padding:0.75rem 1rem;max-width:85%;font-size:0.85rem;color:var(--text-muted);line-height:1.6">
+            Hi love, it's Mum. I've broken my phone and I'm using a friend's number. I'm in a bit of trouble and need you to help me urgently. Can you send £200 to this bank account? I'll pay you back tonight. Please don't call me, I can't talk right now.
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-dim);padding-left:0.5rem">Received from: +44 7700 900461 (unknown number)</div>
+        </div>
+        <div style="margin-top:1rem">
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.6rem">What do you do?</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:0.83rem;transition:all 0.2s" onclick="demoSocialChoice('a')">A. Send the £200 immediately, it could be an emergency</div>
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:0.83rem;transition:all 0.2s" onclick="demoSocialChoice('b')">B. Call your mum on her real known number to verify before doing anything</div>
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:0.83rem;transition:all 0.2s" onclick="demoSocialChoice('c')">C. Reply asking for more details</div>
+          </div>
+          <div id="social-demo-feedback" style="display:none;margin-top:0.75rem;padding:0.75rem 1rem;border-radius:6px;font-size:0.83rem;line-height:1.6"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="plain-explainer" style="margin-bottom:1rem">
+      <h4>🛡️ The one rule that stops almost all social engineering</h4>
+      <p>Always verify through a separate channel. If someone contacts you urgently asking for money or information, hang up or stop messaging and contact them on a number you already know. This one habit protects you from almost every attack.</p>
+    </div>
+
     <div class="task-box">
       <h4>🎯 Your task in this module</h4>
-      <p>You'll face 5 real scenarios: a scam phone call, a fake job offer, a workplace situation, a "Hi Mum" money scam, and a found USB drive. For each one, identify what's happening and choose the safest response.</p>
+      <p>You will face 5 real scenarios: a scam phone call, a fake job offer, a workplace situation, a "Hi Mum" money scam, and a found USB drive. For each one, identify what is happening and choose the safest response.</p>
     </div>
-    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready, start the scenarios →</button>
+    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem;width:100%">I'm ready, start the scenarios →</button>
   </div>
 
   <div class="progress-bar-wrap" id="progress-wrap" style="display:none">
@@ -431,6 +454,35 @@ function showCompletion() {
 }
 
 CyberGuard.refreshNavScore();
+CyberGuardAuth.init();
+
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const next = isLight ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+  document.getElementById('theme-btn').textContent = next === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('cg_theme', next);
+}
+const savedTheme = localStorage.getItem('cg_theme');
+if (savedTheme === 'light') {
+  document.documentElement.setAttribute('data-theme', 'light');
+  document.getElementById('theme-btn').textContent = '☀️';
+}
+
+function demoSocialChoice(opt) {
+  const feedback = {
+    a: { color: 'rgba(255,59,59,0.08)', border: 'rgba(255,59,59,0.3)', text: '🚩 This is the Hi Mum scam. The attacker is using an unknown number and asking you not to call. Sending money without verifying means you lose it permanently. Never send money based on a message from an unknown number.' },
+    b: { color: 'rgba(63,185,80,0.08)', border: 'rgba(63,185,80,0.3)', text: '✅ Correct. Call your mum on her real known number. If it was genuinely her, she will answer. If it was a scammer, you have just protected yourself. This separate-channel verification is the most powerful defence against social engineering.' },
+    c: { color: 'rgba(227,179,65,0.08)', border: 'rgba(227,179,65,0.3)', text: '⚠️ Replying buys time but does not protect you. A skilled scammer will have convincing answers to your questions. The only reliable verification is a voice call to a number you already know.' },
+  };
+  const f = feedback[opt];
+  const fb = document.getElementById('social-demo-feedback');
+  fb.style.display = 'block';
+  fb.style.background = f.color;
+  fb.style.border = '1px solid ' + f.border;
+  fb.textContent = f.text;
+}
+
 const savedProgress = CyberGuard.getModuleProgress('social');
 const alreadyComplete = CyberGuard.getState().challengesCompleted.includes('social');
 

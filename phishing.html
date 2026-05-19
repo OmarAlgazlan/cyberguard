@@ -95,6 +95,7 @@
            font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
     Save Progress
   </button>
+  <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
 
@@ -105,23 +106,58 @@
     <p>Practice spotting fake emails, before you encounter them in real life.</p>
   </div>
 
-  <!-- Plain English intro shown before first scenario -->
-  <div id="module-intro" class="module-intro">
-    <div class="big-icon">🎣</div>
-    <h2>What is a phishing email?</h2>
-    <div class="plain-explainer">
-      <h4>📧 Plain English explanation</h4>
-      <p>A <strong>phishing email</strong> is a fake email designed to trick you. Criminals send emails pretending to be your bank, a delivery company, or a website like PayPal, to get you to click a link or hand over your password. They look very convincing because they copy real logos and language.</p>
+  <!-- Interactive intro shown before first scenario -->
+  <div id="module-intro" class="module-intro" style="text-align:left;max-width:700px">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div class="big-icon">🎣</div>
+      <h2>What is a phishing email?</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;max-width:520px;margin:0 auto">A <strong>phishing email</strong> is a fake email designed to trick you into clicking a link or handing over your password. They look convincing because scammers copy real logos and language.</p>
     </div>
-    <div class="plain-explainer">
+
+    <div class="plain-explainer" style="margin-bottom:1rem">
       <h4>😰 Why does it make us anxious?</h4>
-      <p>These emails use panic on purpose, "your account has been suspended", "you owe money", "act within 24 hours". That feeling of urgency is the weapon. When we're scared, we don't think clearly. Recognising that tactic is your best defence.</p>
+      <p>These emails use panic on purpose: "your account has been suspended", "act within 24 hours". That urgency is the weapon. When we're scared, we stop thinking clearly. Recognising that tactic is your best defence.</p>
     </div>
+
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.25rem">
+      <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0.6rem 1rem;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-muted);display:flex;align-items:center;gap:0.5rem">
+        <span style="color:var(--red)">●</span><span style="color:var(--amber)">●</span><span style="color:var(--green)">●</span>
+        <span style="margin-left:0.5rem">📧 Inbox, Mail Client</span>
+        <span style="margin-left:auto;background:rgba(255,59,59,0.1);color:var(--red);padding:0.15rem 0.5rem;border-radius:3px;font-size:0.65rem">EXAMPLE, SPOT THE CLUES</span>
+      </div>
+      <div style="padding:1.25rem">
+        <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.75rem">
+          <div style="margin-bottom:0.3rem"><strong style="color:var(--text-muted)">From:</strong>
+            <span id="demo-from" style="cursor:pointer;text-decoration:underline dotted" onclick="revealClue('from')" title="Click to reveal">
+              security@natwest-alerts.com
+            </span>
+          </div>
+          <div style="margin-bottom:0.3rem"><strong style="color:var(--text-muted)">Subject:</strong> URGENT: Your account has been suspended</div>
+          <div><strong style="color:var(--text-muted)">To:</strong> you@email.com</div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;border-top:1px solid var(--border);padding-top:0.75rem">
+          <p>Dear Valued Customer,</p>
+          <p style="margin-top:0.5rem">We have detected <span id="demo-urgent" style="cursor:pointer;text-decoration:underline dotted" onclick="revealClue('urgent')" title="Click to reveal">suspicious activity on your account</span>. Your online banking access has been <strong>temporarily suspended</strong>.</p>
+          <p style="margin-top:0.5rem">You must verify your details within <span id="demo-time" style="cursor:pointer;text-decoration:underline dotted" onclick="revealClue('time')" title="Click to reveal"><strong>24 hours</strong></span> or your account will be permanently closed.</p>
+          <p style="margin-top:0.75rem"><a id="demo-link" style="color:var(--blue-bright);cursor:pointer;text-decoration:underline" onclick="revealClue('link')" title="Click to reveal">Click here to verify your account now</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:6px;padding:1rem 1.25rem;margin-bottom:1.25rem">
+      <div style="font-size:0.8rem;color:var(--red);font-weight:700;margin-bottom:0.6rem">🔍 Click each underlined element above to reveal the red flags</div>
+      <div id="clue-from" style="display:none;font-size:0.82rem;color:var(--text-muted);margin-bottom:0.4rem;padding:0.4rem 0.6rem;background:rgba(255,59,59,0.06);border-radius:4px">🚩 <strong>Fake sender domain:</strong> Real NatWest emails come from @natwest.com, not @natwest-alerts.com. The hyphen and extra word are the giveaway.</div>
+      <div id="clue-urgent" style="display:none;font-size:0.82rem;color:var(--text-muted);margin-bottom:0.4rem;padding:0.4rem 0.6rem;background:rgba(255,59,59,0.06);border-radius:4px">🚩 <strong>Vague threat:</strong> "Suspicious activity" with no specifics. Real banks name the transaction or date. Vagueness is designed to make you panic without giving you anything to verify.</div>
+      <div id="clue-time" style="display:none;font-size:0.82rem;color:var(--text-muted);margin-bottom:0.4rem;padding:0.4rem 0.6rem;background:rgba(255,59,59,0.06);border-radius:4px">🚩 <strong>Artificial deadline:</strong> "24 hours" pressure is a classic manipulation tactic. It is designed to stop you thinking carefully. Real banks do not permanently close accounts in 24 hours.</div>
+      <div id="clue-link" style="display:none;font-size:0.82rem;color:var(--text-muted);padding:0.4rem 0.6rem;background:rgba(255,59,59,0.06);border-radius:4px">🚩 <strong>Suspicious link:</strong> Hovering over "Click here" would reveal a URL like http://natwest-secure-verify.ru/login, not natwest.com. Never click without checking the actual URL.</div>
+      <div id="clue-prompt" style="font-size:0.8rem;color:var(--text-dim);margin-top:0.5rem">Click the underlined parts above to discover each red flag.</div>
+    </div>
+
     <div class="task-box">
       <h4>🎯 Your task in this module</h4>
-      <p>You'll see 5 emails. For each one, decide: is this email real, or is it a scam? Read it carefully, especially the email address it came from, then choose your response. There's no time limit. Take your time.</p>
+      <p>You will see 5 emails. For each one, decide: is this email real or a scam? Read carefully, especially the sender address, then choose your response. There is no time limit. Take your time.</p>
     </div>
-    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem">I'm ready, show me the first email →</button>
+    <button class="btn btn-primary" onclick="startModule()" style="margin-top:1rem;width:100%">I'm ready, show me the first email →</button>
   </div>
 
   <!-- Progress bar -->
@@ -489,15 +525,46 @@ function showCompletion() {
 
 // On load: check if module was already started this session
 CyberGuard.refreshNavScore();
+CyberGuardAuth.init();
+
+// Theme persistence
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const next = isLight ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+  document.getElementById('theme-btn').textContent = next === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('cg_theme', next);
+}
+const savedTheme = localStorage.getItem('cg_theme');
+if (savedTheme === 'light') {
+  document.documentElement.setAttribute('data-theme', 'light');
+  document.getElementById('theme-btn').textContent = '☀️';
+}
+
+// Interactive demo clue reveals
+const cluesRevealed = {};
+function revealClue(key) {
+  if (cluesRevealed[key]) return;
+  cluesRevealed[key] = true;
+  const el = document.getElementById('clue-' + key);
+  if (el) { el.style.display = 'block'; el.style.animation = 'fadeIn 0.3s ease'; }
+  const src = document.getElementById('demo-' + key);
+  if (src) { src.style.color = 'var(--red)'; src.style.textDecorationStyle = 'solid'; }
+  const allKeys = ['from','urgent','time','link'];
+  const done = allKeys.filter(k => cluesRevealed[k]).length;
+  if (done === allKeys.length) {
+    const p = document.getElementById('clue-prompt');
+    if (p) { p.textContent = '✅ All 4 red flags found. You already know what to look for.'; p.style.color = 'var(--green)'; }
+  }
+}
+
 const savedProgress = CyberGuard.getModuleProgress('phishing');
 const alreadyComplete = CyberGuard.getState().challengesCompleted.includes('phishing');
 
 if (alreadyComplete) {
-  // Show completion screen directly
   document.getElementById('module-intro').style.display = 'none';
   showCompletion();
 } else if (savedProgress > 0) {
-  // Mid-module refresh: skip intro and resume
   startModule();
 }
 </script>

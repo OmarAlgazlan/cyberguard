@@ -18,6 +18,51 @@
   --glow-blue: 0 0 20px rgba(31,111,235,0.3);
 }
 
+/* ── Light mode theme ── */
+[data-theme="light"] {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface2: #eef0f3;
+  --border: #d0d7de;
+  --red: #cf222e;
+  --red-dim: #f7c5c5;
+  --blue: #0969da;
+  --blue-bright: #0550ae;
+  --green: #1a7f37;
+  --amber: #9a6700;
+  --text: #1f2328;
+  --text-muted: #57606a;
+  --text-dim: #8c959f;
+  --glow-red: none;
+  --glow-blue: none;
+}
+[data-theme="light"] body { background: var(--bg); }
+[data-theme="light"] body::before { display: none; }
+[data-theme="light"] nav {
+  background: rgba(244,246,248,0.92);
+  border-bottom: 1px solid var(--border);
+}
+[data-theme="light"] .nav-logo { color: var(--blue); }
+[data-theme="light"] .challenge-card { background: #ffffff; }
+[data-theme="light"] .scenario-toolbar { background: var(--surface2); }
+[data-theme="light"] .email-mock { background: #ffffff; }
+[data-theme="light"] .guidance-box { background: rgba(9,105,218,0.05); border-color: rgba(9,105,218,0.2); }
+
+/* ── Theme toggle button ── */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  margin-right: 0.5rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--text-muted); }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
