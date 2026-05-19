@@ -89,6 +89,7 @@
            font-size:0.78rem;font-family:'Space Mono',monospace;margin-right:0.5rem">
     Save Progress
   </button>
+  <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   <div class="nav-score" id="nav-score">⬡ 0 pts</div>
 </nav>
 
@@ -220,6 +221,19 @@
 
   CyberGuard.refreshNavScore();
   CyberGuardAuth.init();
+
+  function toggleTheme() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const next = isLight ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+    document.getElementById('theme-btn').textContent = next === 'light' ? '☀️' : '🌙';
+    localStorage.setItem('cg_theme', next);
+  }
+  const savedTheme = localStorage.getItem('cg_theme');
+  if (savedTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('theme-btn').textContent = '☀️';
+  }
 
   const s = CyberGuard.getState();
   if (s.preAnxiety !== null) {
